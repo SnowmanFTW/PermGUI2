@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MenuItem {
-    private ItemStack item;
+    private final ItemStack item;
     private List<String> actions;
     private int slot;
 
@@ -96,18 +96,18 @@ public class MenuItem {
         return this;
     }
 
-    public MenuItem setActions(List<String> actions){
+    public MenuItem setActions(List<String> actions) {
         this.actions = actions;
         return this;
     }
 
-    public MenuItem setSlot(int slot){
+    public MenuItem setSlot(int slot) {
         this.slot = slot;
         return this;
     }
 
-    public ItemStack build(){
-        return item;
+    public MenuItem build() {
+        return this;
     }
 
     public ItemStack getItem() {

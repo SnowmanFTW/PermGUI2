@@ -1,6 +1,5 @@
 package me.snowman.permgui2.commands;
 
-import me.snowman.permgui2.PermGUI;
 import me.snowman.permgui2.managers.MenuManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,7 +15,7 @@ public class Perms implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        menuManager.getMainMenu().open(player);
+        menuManager.open(player, menuManager.getMainMenu());
         return true;
     }
 }
