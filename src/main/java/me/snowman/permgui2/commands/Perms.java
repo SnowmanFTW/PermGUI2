@@ -8,18 +8,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Perms implements CommandExecutor {
-    private final PermGUI plugin;
     private final MenuManager menuManager;
 
-    public Perms(PermGUI plugin, MenuManager menuManager){
-        this.plugin = plugin;
+    public Perms(MenuManager menuManager){
         this.menuManager = menuManager;
     }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        String menu = plugin.getConfig().getString("MainMenu").replace(".yml", "");
-        menuManager.getMenu(menu).open(player);
+        menuManager.getMainMenu().open(player);
         return true;
     }
 }

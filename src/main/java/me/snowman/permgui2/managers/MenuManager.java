@@ -45,11 +45,17 @@ public class MenuManager {
         }
         FileConfiguration menu = YamlConfiguration.loadConfiguration(menuFile);
         return new Menu()
+                .set
                 .setTitle(messageManager.color(menu.getString("title")))
                 .setSize(menu.getInt("size"))
                 .setCommands(menu.getStringList("open-commands"))
                 .setInventoryType(InventoryType.valueOf(menu.getString("inventory-type")))
                 .setListType(menu.getString("list"))
                 .build();
+    }
+
+    public Menu getMainMenu(){
+        String menu = permGUI.getConfig().getString("MainMenu").replace(".yml", "");
+        return getMenu(menu);
     }
 }

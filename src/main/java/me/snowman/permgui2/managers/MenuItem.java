@@ -107,7 +107,6 @@ public class MenuItem {
     }
 
     public ItemStack build(){
-        item.
         return item;
     }
 

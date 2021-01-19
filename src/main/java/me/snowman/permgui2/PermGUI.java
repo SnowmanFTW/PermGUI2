@@ -16,7 +16,7 @@ public class PermGUI extends JavaPlugin {
         final MenuManager menuManager = new MenuManager(this, messageManager);
         final PermsManager permsManager = new PermsManager(this);
         final PermissionModify permissionModify = new PermissionModify(permsManager);
-        getCommand("perms2").setExecutor(new Perms(this, menuManager));
+        getCommand("perms2").setExecutor(new Perms(menuManager));
         getServer().getPluginManager().registerEvents(new GUIListeners(menuManager, permsManager), this);
         getServer().getPluginManager().registerEvents(new ChatListeners(menuManager, permsManager), this);
 

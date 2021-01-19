@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Menu {
@@ -15,6 +16,7 @@ public class Menu {
     private InventoryType inventoryType = InventoryType.CHEST;
     private String listType;
     private int page = 1;
+    private List<MenuItem> items;
 
     public Menu(){
     }
@@ -41,6 +43,16 @@ public class Menu {
 
     public Menu setListType(String listType){
         this.listType = listType;
+        return this;
+    }
+
+    public Menu setItems(List<MenuItem> items){
+        this.items = items;
+        return this;
+    }
+
+    public Menu setItems(MenuItem... items){
+        this.items = Arrays.asList(items);
         return this;
     }
 
