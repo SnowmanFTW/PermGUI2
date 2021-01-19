@@ -1,0 +1,36 @@
+title: "&bPlayers online"
+open-commands: []
+inventory-type: "CHEST"
+list: "players"
+size: 54
+
+items:
+  "players":
+    material: PLAYER_HEAD
+    amount: 1
+    name: "&b%player%"
+    lore: []
+    actions:
+      - "[OPEN] player_portal.yml"
+  "previouspage":
+    material: PLAYER_HEAD
+    slot: 45
+    amount: 1
+    name: "&bPrevious Page"
+    lore:
+      - ""
+      - "&7Click to go back"
+      - "&7To the last menu"
+    actions:
+      - "[PREVIOUSPAGE]"
+  "nextpage":
+    material: PLAYER_HEAD
+    slot: 53
+    amount: 1
+    name: "&bNext Page"
+    lore:
+      - ""
+      - "&7Click to go"
+      - "&7To the next menu"
+    actions:
+      - "[NEXTPAGE]"

@@ -1,0 +1,25 @@
+me/snowman/permgui2/commands/Perms.java
+ me.snowman.permgui2.commands.Perms
+me/snowman/permgui2/managers/MenuManager.java
+ me.snowman.permgui2.managers.MenuManager
+me/snowman/permgui2/permissions/PermissionModify.java
+ me.snowman.permgui2.permissions.PermissionModify
+me/snowman/permgui2/events/GUIListeners.java
+ me.snowman.permgui2.events.GUIListeners
+me/snowman/permgui2/managers/MessageManager.java
+ me.snowman.permgui2.managers.MessageManager
+me/snowman/permgui2/managers/Menu.java
+ me.snowman.permgui2.managers.Menu
+me/snowman/permgui2/events/ChatListeners.java
+ me.snowman.permgui2.events.ChatListeners
+me/snowman/permgui2/permissions/PermissionAction.java
+ me.snowman.permgui2.permissions.PermissionAction
+me/snowman/permgui2/managers/MenuItem.java
+ me.snowman.permgui2.managers.MenuItem
+me/snowman/permgui2/PermGUI.java
+ me.snowman.permgui2.PermGUI
+me/snowman/permgui2/managers/PermsManager.java
+ me.snowman.permgui2.managers.PermsManager
+ me.snowman.permgui2.managers.PermsManager$1
+me/snowman/permgui2/managers/FileManager.java
+ me.snowman.permgui2.managers.FileManager

@@ -1,0 +1,27 @@
+title: "&bMeta of player &f%player%"
+open-commands: []
+inventory-type: "CHEST"
+size: 27
+
+items:
+  "prefix":
+    material: GLOWSTONE_DUST
+    slot: 11
+    amount: 1
+    name: "&bChange prefix"
+    lore:
+      - ""
+      - "&7Click to change"
+      - "&7the prefix"
+    actions:
+      - "[CHAT] prefix"
+  "suffix":
+    material: SUGAR
+    slot: 15
+    amount: 1
+    name: "&bChange suffix"
+    lore:
+      - "&7Click to change"
+      - "&7the suffix"
+    actions:
+      - "[CHAT] suffix"
