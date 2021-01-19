@@ -1,7 +1,6 @@
 package me.snowman.permgui2.managers;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
@@ -17,6 +16,7 @@ public class Menu {
     private String listType;
     private int page = 1;
     private List<MenuItem> items;
+    private Inventory inventory;
 
     public Menu(){
     }
@@ -36,32 +36,32 @@ public class Menu {
         return this;
     }
 
-    public Menu setInventoryType(InventoryType inventoryType){
+    public Menu setInventoryType(InventoryType inventoryType) {
         this.inventoryType = inventoryType;
         return this;
     }
 
-    public Menu setListType(String listType){
+    public Menu setListType(String listType) {
         this.listType = listType;
         return this;
     }
 
-    public Menu setItems(List<MenuItem> items){
+    public Menu build() {
+        this.inventory = Bukkit.createInventory(null, getSize(), getTitle());
+        return this;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public List<MenuItem> getItems() {
+        return items;
+    }
+
+    public Menu setItems(List<MenuItem> items) {
         this.items = items;
         return this;
-    }
-
-    public Menu setItems(MenuItem... items){
-        this.items = Arrays.asList(items);
-        return this;
-    }
-
-    public Menu build(){
-        return this;
-    }
-
-    public Inventory getInventory(){
-        return Bukkit.createInventory(null, size, title);
     }
 
     public int getSize() {
@@ -84,19 +84,20 @@ public class Menu {
         return title;
     }
 
-    public int getPage(){
+    public Menu setItems(MenuItem... items) {
+        this.items = Arrays.asList(items);
+        return this;
+    }
+
+    public int getPage() {
         return page;
     }
 
-    public void open(Player player){
-        player.openInventory(getInventory());
-    }
-
-    public void addPage(){
+    public void addPage() {
         page += 1;
     }
 
-    public void substractPage(){
+    public void substractPage() {
         page -= 1;
     }
 }
