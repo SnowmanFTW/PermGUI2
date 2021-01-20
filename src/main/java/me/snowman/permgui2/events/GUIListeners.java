@@ -1,6 +1,7 @@
 package me.snowman.permgui2.events;
 
 import me.snowman.permgui2.managers.*;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,6 +22,7 @@ public class GUIListeners implements Listener {
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         if (!menuManager.hasMenu(player)) return;
+        if (event.getCurrentItem() == null || event.getCurrentItem().getType().equals(Material.AIR)) return;
         Menu menu = menuManager.getMenu(player);
         MenuItem item = itemManager.getItem(menu, event.getCurrentItem());
 
