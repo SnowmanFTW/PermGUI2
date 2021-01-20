@@ -28,8 +28,9 @@ public class Menu {
     }
 
     public Menu setTitle(String title) {
+        System.out.println(getTarget());
+        if (getTarget() != null) title = title.replace("%target%", getTarget());
         this.title = title;
-        if (target != null) title.replace("%target%", target);
         return this;
     }
 
