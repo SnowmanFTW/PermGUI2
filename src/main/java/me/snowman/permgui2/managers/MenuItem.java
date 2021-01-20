@@ -25,6 +25,7 @@ public class MenuItem {
     }
 
     public MenuItem(Material material, int amount){
+        if (amount == 0) amount = 1;
         item = new ItemStack(material, amount);
     }
 

@@ -7,7 +7,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 
 import java.io.File;
 import java.util.*;
@@ -30,16 +29,16 @@ public class MenuManager {
     }
 
     public void open(Player player, Menu menu) {
-        Inventory inv = menu.getInventory();
-        for (MenuItem item : menu.getItems()) {
-            inv.setItem(item.getSlot(), item.getItem());
-        }
-        player.openInventory(inv);
+        player.openInventory(menu.getInventory());
         menus.put(player.getUniqueId(), menu);
     }
 
     public Menu getMenu(Player player) {
         return getMenus().get(player.getUniqueId());
+    }
+
+    public boolean hasMenu(Player player) {
+        return getMenus().containsKey(player.getUniqueId());
     }
 
     public Menu getMenu(String fileName) {
@@ -52,9 +51,9 @@ public class MenuManager {
         ConfigurationSection itemsSection = menu.getConfigurationSection("items");
         List<MenuItem> items = new ArrayList<>();
         itemsSection.getKeys(false)
-                .forEach(item -> items.add(new MenuItem(Material.matchMaterial(itemsSection.getString(item + ".material")), itemsSection.getInt(".amount"))
-                        .setName(itemsSection.getString(item + ".name"))
-                        .setLore(itemsSection.getStringList(item + ".lore"))
+                .forEach(item -> items.add(new MenuItem(Material.matchMaterial(itemsSection.getString(item + ".material")), itemsSection.getInt(item + ".amount"))
+                        .setName(messageManager.color(itemsSection.getString(item + ".name")))
+                        .setLore(messageManager.color(itemsSection.getStringList(item + ".lore")))
                         .setActions(itemsSection.getStringList(item + ".actions"))
                         .setSlot(itemsSection.getInt(item + ".slot"))
                         .build()));
