@@ -1,11 +1,16 @@
 package me.snowman.permgui2.managers;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class Menu {
 
@@ -14,15 +19,17 @@ public class Menu {
     private List<String> commands;
     private InventoryType inventoryType = InventoryType.CHEST;
     private String listType;
-    private int page = 1;
     private List<MenuItem> items;
     private Inventory inventory;
+    private String target;
+    private int page = 1;
 
-    public Menu(){
+    public Menu() {
     }
 
-    public Menu setTitle(String title){
+    public Menu setTitle(String title) {
         this.title = title;
+        if (target != null) title.replace("%target%", target);
         return this;
     }
 
@@ -48,10 +55,49 @@ public class Menu {
 
     public Menu build() {
         this.inventory = Bukkit.createInventory(null, getSize(), getTitle());
-        for (MenuItem item : getItems()) {
-            getInventory().setItem(item.getSlot(), item.getItem());
+        if (getListType() != null) {
+            LinkedList<String> targets = retrieveTargets(getListType());
+
+            int page = getPage();
+            int size = targets.size();
+            int maxPage = size / 45 + 1;
+            if (size % 45 == 0) maxPage = size / 45;
+            if (page > maxPage) page = maxPage;
+
+            for (int slot = 0; slot < 45; slot++) {
+                int index = slot + ((page - 1) * 45);
+                if (index < size) {
+                    String target = targets.get(index);
+                    for (MenuItem item : getItems()) {
+                        if (item.getSlot() == 0) {
+                            getInventory().setItem(slot, item.setName(item.getName().replace("%target%", target)).build().getItem());
+                        }
+                    }
+                } else break;
+            }
+            for (MenuItem item : getItems()) {
+                if (item.getSlot() != 0) {
+                    if (size > 45 && page == 1) {
+                        if (item.getActions().contains("[NEXTPAGE]"))
+                            getInventory().setItem(item.getSlot(), item.getItem());
+                    } else if (size > 45) {
+                        getInventory().setItem(item.getSlot(), item.getItem());
+                    } else if (page == maxPage && size > 90) {
+                        if (item.getActions().contains("[PREVIOUSPAGE]"))
+                            getInventory().setItem(item.getSlot(), item.getItem());
+                    }
+                }
+            }
+        } else {
+            for (MenuItem item : getItems()) {
+                getInventory().setItem(item.getSlot(), item.getItem());
+            }
         }
         return this;
+    }
+
+    public String getTarget() {
+        return target;
     }
 
     public Inventory getInventory() {
@@ -87,9 +133,22 @@ public class Menu {
         return title;
     }
 
+    public Menu setTarget(String target) {
+        this.target = target;
+        return this;
+    }
+
     public Menu setItems(MenuItem... items) {
         this.items = Arrays.asList(items);
         return this;
+    }
+
+    public LinkedList<String> retrieveTargets(String listType) {
+        switch (listType) {
+            case "players":
+                return new LinkedList<>(getServer().getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList()));
+        }
+        return null;
     }
 
     public int getPage() {
