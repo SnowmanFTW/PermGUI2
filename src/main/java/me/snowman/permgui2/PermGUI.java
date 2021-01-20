@@ -12,10 +12,10 @@ public class PermGUI extends JavaPlugin {
     @Override
     public void onEnable() {
         final FileManager fileManager = new FileManager(this);
+        final PermsManager permsManager = new PermsManager(this);
         final MessageManager messageManager = new MessageManager(this, fileManager);
         final ItemManager itemManager = new ItemManager(this, messageManager);
-        final MenuManager menuManager = new MenuManager(this, itemManager, messageManager);
-        final PermsManager permsManager = new PermsManager(this);
+        final MenuManager menuManager = new MenuManager(this, itemManager, messageManager, permsManager);
         final PermissionModify permissionModify = new PermissionModify(permsManager);
         getCommand("perms2").setExecutor(new Perms(menuManager));
         getServer().getPluginManager().registerEvents(new GUIListeners(menuManager, itemManager, permsManager), this);

@@ -25,13 +25,14 @@ public class GUIListeners implements Listener {
         if (event.getCurrentItem() == null || event.getCurrentItem().getType().equals(Material.AIR)) return;
         Menu menu = menuManager.getMenu(player);
         MenuItem item = itemManager.getItem(menu, event.getCurrentItem());
+        String itemName = item.getName();
 
         for (String actions : item.getActions()) {
             String action = actions.substring(0, actions.indexOf(" "));
             String arguments = actions.substring(actions.indexOf(" ") + 1);
             switch (action) {
                 case "[OPEN]":
-                    Menu openedMenu = menuManager.getMenu(arguments);
+                    Menu openedMenu = menuManager.getMenu(arguments, itemName);
                     menuManager.open(player, openedMenu);
                     break;
             }
