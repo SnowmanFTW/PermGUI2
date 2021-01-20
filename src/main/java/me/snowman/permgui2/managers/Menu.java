@@ -48,6 +48,9 @@ public class Menu {
 
     public Menu build() {
         this.inventory = Bukkit.createInventory(null, getSize(), getTitle());
+        for (MenuItem item : getItems()) {
+            getInventory().setItem(item.getSlot(), item.getItem());
+        }
         return this;
     }
 
