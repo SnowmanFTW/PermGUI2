@@ -1,4 +1,4 @@
-title: "&f%plugin%&b's permissions"
+title: "&f%target%&b's permissions"
 open-commands: []
 inventory-type: "CHEST"
 list: "perms"

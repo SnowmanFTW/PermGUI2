@@ -41,8 +41,9 @@ public class ItemManager {
         return items;
     }
 
-    public MenuItem getItem(Menu menu, ItemStack itemStack) {
+    public MenuItem getItem(Menu menu, ItemStack itemStack, String target) {
         for (MenuItem item : menu.getItems()) {
+            item.setName(item.getName().replace("%target%", target));
             if (item.getItem().isSimilar(itemStack)) return item;
         }
         return null;

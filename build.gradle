@@ -1,6 +1,11 @@
 plugins {
     id 'java'
 }
+libsDirName = 'C:\\Users\\Snowman\\Desktop\\Hub\\Servers\\Minecraft\\plugin testing\\plugins'
+jar {
+    archiveName 'PermGUI2.jar'
+}
+
 group 'me.snowman'
 version '2.0.0'
 

@@ -1,4 +1,4 @@
-title: "&bMeta of player &f%player%"
+title: "&bMeta of player &f%target%"
 open-commands: []
 inventory-type: "CHEST"
 size: 27

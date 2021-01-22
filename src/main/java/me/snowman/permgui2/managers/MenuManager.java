@@ -56,7 +56,7 @@ public class MenuManager {
                 || Bukkit.getPlayer(strippedItemName) == null
                 || Arrays.asList(permsManager.getPerms().getGroups()).contains(strippedItemName)
                 || Arrays.stream(Bukkit.getPluginManager().getPlugins()).anyMatch(plugin -> plugin.getName().equalsIgnoreCase(finalStrippedItemName)))
-            strippedItemName = "";
+            strippedItemName = null;
         return new Menu()
                 .setTarget(strippedItemName)
                 .setItems(itemManager.getItems(fileName))

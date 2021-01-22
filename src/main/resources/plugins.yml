@@ -8,7 +8,7 @@ items:
   "plugins":
     material: PAPER
     amount: 1
-    name: "&b%plugin%"
+    name: "&b%target%"
     lore: []
     actions:
       - "[OPEN] permissions.yml"

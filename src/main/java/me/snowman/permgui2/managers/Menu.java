@@ -1,9 +1,12 @@
 package me.snowman.permgui2.managers;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -22,13 +25,13 @@ public class Menu {
     private List<MenuItem> items;
     private Inventory inventory;
     private String target;
+    private String argument;
     private int page = 1;
 
     public Menu() {
     }
 
     public Menu setTitle(String title) {
-        System.out.println(getTarget());
         if (getTarget() != null) title = title.replace("%target%", getTarget());
         this.title = title;
         return this;
@@ -71,7 +74,10 @@ public class Menu {
                     String target = targets.get(index);
                     for (MenuItem item : getItems()) {
                         if (item.getSlot() == 0) {
-                            getInventory().setItem(slot, item.setName(item.getName().replace("%target%", target)).build().getItem());
+                            String name = item.getName();
+                            item.setName(item.getName().replace("%target%", target));
+                            getInventory().setItem(slot, item.getItem());
+                            item.setName(name);
                         }
                     }
                 } else break;
@@ -95,6 +101,10 @@ public class Menu {
             }
         }
         return this;
+    }
+
+    public String getArgument() {
+        return argument;
     }
 
     public String getTarget() {
@@ -134,8 +144,13 @@ public class Menu {
         return title;
     }
 
+    public Menu setArgument(String argument) {
+        this.argument = argument;
+        return this;
+    }
+
     public Menu setTarget(String target) {
-        this.target = target;
+        if (this.target == null) this.target = target;
         return this;
     }
 
@@ -148,6 +163,11 @@ public class Menu {
         switch (listType) {
             case "players":
                 return new LinkedList<>(getServer().getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList()));
+            case "plugins":
+                return new LinkedList<>(Arrays.stream(getServer().getPluginManager().getPlugins()).map(Plugin::getName).collect(Collectors.toList()));
+            case "perms":
+                System.out.println(getArgument());
+                return new LinkedList<>(getServer().getPluginManager().getPlugin(ChatColor.stripColor(getArgument())).getDescription().getPermissions().stream().map(Permission::getName).collect(Collectors.toList()));
         }
         return null;
     }

@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class GUIListeners implements Listener {
     private final MenuManager menuManager;
@@ -24,7 +25,8 @@ public class GUIListeners implements Listener {
         if (!menuManager.hasMenu(player)) return;
         if (event.getCurrentItem() == null || event.getCurrentItem().getType().equals(Material.AIR)) return;
         Menu menu = menuManager.getMenu(player);
-        MenuItem item = itemManager.getItem(menu, event.getCurrentItem());
+        ItemStack currentItem = event.getCurrentItem();
+        MenuItem item = itemManager.getItem(menu, currentItem, currentItem.getItemMeta().getDisplayName());
         String itemName = item.getName();
 
         for (String actions : item.getActions()) {
@@ -32,7 +34,7 @@ public class GUIListeners implements Listener {
             String arguments = actions.substring(actions.indexOf(" ") + 1);
             switch (action) {
                 case "[OPEN]":
-                    Menu openedMenu = menuManager.getMenu(arguments, itemName);
+                    Menu openedMenu = menuManager.getMenu(arguments, itemName).setArgument(itemName);
                     menuManager.open(player, openedMenu);
                     break;
             }
