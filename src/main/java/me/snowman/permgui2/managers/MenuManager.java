@@ -58,7 +58,6 @@ public class MenuManager {
                 || Arrays.stream(Bukkit.getPluginManager().getPlugins()).anyMatch(plugin -> plugin.getName().equalsIgnoreCase(finalStrippedItemName)))
             strippedItemName = null;
         return new Menu()
-                .setTarget(strippedItemName)
                 .setItems(itemManager.getItems(fileName))
                 .setTitle(messageManager.color(menu.getString("title")))
                 .setSize(menu.getInt("size"))

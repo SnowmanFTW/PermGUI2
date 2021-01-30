@@ -1,12 +1,12 @@
 package me.snowman.permgui2.managers;
 
 import me.snowman.permgui2.PermGUI;
-import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 public class FileManager {
 
@@ -85,11 +85,7 @@ public class FileManager {
         for(String menu: menus){
             File menuFile = new File(menuFolder, menu + ".yml");
             if(!menuFile.exists()){
-                try {
-                    FileUtils.copyInputStreamToFile(permGUI.getResource(menu + ".yml"), menuFile);
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
+                permGUI.saveResource("menus" + File.separator + menu + ".yml", true);
 //            Bukkit.getServer().getConsoleSender().sendMessage(PermGUI.messagesManager.getPrefix() + PermGUI.messagesManager.color("&bMessages file created successfully."));
             }
         }
