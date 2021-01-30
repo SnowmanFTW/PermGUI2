@@ -1,6 +1,8 @@
 package me.snowman.permgui2.events;
 
 import me.snowman.permgui2.managers.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,7 +36,10 @@ public class GUIListeners implements Listener {
             String arguments = actions.substring(actions.indexOf(" ") + 1);
             switch (action) {
                 case "[OPEN]":
-                    Menu openedMenu = menuManager.getMenu(arguments, itemName).setArgument(itemName);
+                    Menu openedMenu = menuManager.getMenu(arguments, itemName);
+                    if (menuManager.getMenu(player).getTarget() == null && Bukkit.getPlayer(ChatColor.stripColor(itemName)) != null)
+                        openedMenu.setTarget(itemName).build();
+                    else openedMenu.setTarget(menuManager.getMenu(player).getTarget()).build();
                     menuManager.open(player, openedMenu);
                     break;
             }

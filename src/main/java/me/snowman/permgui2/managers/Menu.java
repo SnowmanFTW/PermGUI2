@@ -1,11 +1,9 @@
 package me.snowman.permgui2.managers;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
@@ -25,7 +23,6 @@ public class Menu {
     private List<MenuItem> items;
     private Inventory inventory;
     private String target;
-    private String argument;
     private int page = 1;
 
     public Menu() {
@@ -103,10 +100,6 @@ public class Menu {
         return this;
     }
 
-    public String getArgument() {
-        return argument;
-    }
-
     public String getTarget() {
         return target;
     }
@@ -144,11 +137,6 @@ public class Menu {
         return title;
     }
 
-    public Menu setArgument(String argument) {
-        this.argument = argument;
-        return this;
-    }
-
     public Menu setTarget(String target) {
         if (this.target == null) this.target = target;
         return this;
@@ -166,8 +154,7 @@ public class Menu {
             case "plugins":
                 return new LinkedList<>(Arrays.stream(getServer().getPluginManager().getPlugins()).map(Plugin::getName).collect(Collectors.toList()));
             case "perms":
-                System.out.println(getArgument());
-                return new LinkedList<>(getServer().getPluginManager().getPlugin(ChatColor.stripColor(getArgument())).getDescription().getPermissions().stream().map(Permission::getName).collect(Collectors.toList()));
+                //return new LinkedList<>(getServer().getPluginManager().getPlugin(ChatColor.stripColor()).getDescription().getPermissions().stream().map(Permission::getName).collect(Collectors.toList()));
         }
         return null;
     }

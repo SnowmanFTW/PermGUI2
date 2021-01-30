@@ -1,0 +1,26 @@
+title: "&b&lPermGUI2"
+open-commands: []
+inventory-type: "CHEST"
+size: 27
+
+items:
+  "players":
+    material: PLAYER_HEAD
+    slot: 10
+    amount: 1
+    name: "&bPlayers"
+    lore:
+      - ""
+      - "&7Click to open players menu"
+    actions:
+      - "[OPEN] players.yml"
+  "groups":
+    material: GOLD_NUGGET
+    slot: 16
+    amount: 1
+    name: "&bGroups"
+    lore:
+      - ""
+      - "&7Click to open groups menu"
+    actions:
+      - "[OPEN] groups.yml"

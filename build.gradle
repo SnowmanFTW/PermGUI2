@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+libsDirName = 'C:\\Users\\Snowman\\Desktop\\Code\\TestServer\\plugins'
+jar {
+    archiveName 'PermGUI2.jar'
+}
+
+group 'me.snowman'
+version '2.0.0'
+
+repositories {
+    mavenCentral()
+
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+    compileOnly 'net.luckperms:api:5.2'
+
+}
+
+test {
+    useJUnitPlatform()
+}
