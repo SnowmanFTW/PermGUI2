@@ -160,6 +160,8 @@ public class Menu {
             case "players":
                 return new LinkedList<>(getServer().getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList()));
             case "groups":
+            case "changegroup":
+            case "addgroup":
                 return new LinkedList<>(Arrays.asList(permsManager.getPerms().getGroups()));
             case "plugins":
                 return new LinkedList<>(Arrays.stream(getServer().getPluginManager().getPlugins()).map(Plugin::getName).collect(Collectors.toList()));

@@ -41,7 +41,7 @@ public class GUIListeners implements Listener {
         Menu menu = menuManager.getMenu(user);
         ItemStack currentItem = event.getCurrentItem();
         MenuItem item = itemManager.getItem(menu, currentItem, currentItem.getItemMeta().getDisplayName());
-        String itemName = item.getName();
+        String itemName = ChatColor.stripColor(item.getName());
 
         if (menu.getListType() != null) {
             switch (menu.getListType()) {
@@ -57,24 +57,37 @@ public class GUIListeners implements Listener {
         for (String actions : item.getActions()) {
             String action = actions.substring(0, actions.indexOf(" "));
             String arguments = actions.substring(actions.indexOf(" ") + 1);
+            String targetString = arguments.replace("%target%", user.getTarget());
+            Player target = Bukkit.getServer().getPlayer(targetString);
             switch (action) {
                 case "[OPEN]":
                     Menu openedMenu = menuManager.getMenu(arguments);
                     menuManager.open(user, openedMenu);
                     break;
                 case "[CHANGEPERM]":
-                    String targetString = arguments.replace("%target%", user.getTarget());
-                    String perm = ChatColor.stripColor(itemName);
                     if (Bukkit.getServer().getPlayer(targetString) != null) {
-                        Player target = Bukkit.getServer().getPlayer(targetString);
-                        if (target.hasPermission(perm)) permsManager.getPerms().playerRemove(null, target, perm);
-                        else permsManager.getPerms().playerAdd(null, target, perm);
+                        if (target.hasPermission(itemName))
+                            permsManager.getPerms().playerRemove(null, target, itemName);
+                        else permsManager.getPerms().playerAdd(null, target, itemName);
                         break;
                     } else if (Arrays.stream(permsManager.getPerms().getGroups()).map(group -> group.equals(user.getTarget())).anyMatch(aBoolean -> true)) {
-                        if (permsManager.getPerms().groupHas((World) null, targetString, perm))
-                            permsManager.getPerms().groupRemove((World) null, targetString, perm);
-                        else permsManager.getPerms().groupAdd((World) null, targetString, perm);
+                        if (permsManager.getPerms().groupHas((World) null, targetString, itemName))
+                            permsManager.getPerms().groupRemove((World) null, targetString, itemName);
+                        else permsManager.getPerms().groupAdd((World) null, targetString, itemName);
+                        break;
                     }
+                    break;
+                case "[CHANGEGROUP]":
+                    for (String group : permsManager.getPerms().getPlayerGroups(target)) {
+                        permsManager.getPerms().playerRemoveGroup(null, target, group);
+                    }
+                    permsManager.getPerms().playerAddGroup(null, target, itemName);
+                    user.getPlayer().closeInventory();
+                    break;
+                case "[ADDGROUP]":
+                    permsManager.getPerms().playerAddGroup(null, target, itemName);
+                    user.getPlayer().closeInventory();
+
             }
         }
         event.setCancelled(true);
