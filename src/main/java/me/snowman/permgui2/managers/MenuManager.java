@@ -1,18 +1,13 @@
 package me.snowman.permgui2.managers;
 
 import me.snowman.permgui2.PermGUI;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import me.snowman.permgui2.objects.Menu;
+import me.snowman.permgui2.objects.User;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -21,42 +16,34 @@ public class MenuManager {
     private final MessageManager messageManager;
     private final ItemManager itemManager;
     private final PermsManager permsManager;
+    private final UserManager userManager;
 
-    private final Map<UUID, Menu> menus = new HashMap<>();
-
-    public MenuManager(PermGUI permGUI, ItemManager itemManager, MessageManager messageManager, PermsManager permsManager) {
+    public MenuManager(PermGUI permGUI, ItemManager itemManager, MessageManager messageManager, PermsManager permsManager, UserManager userManager) {
         this.permGUI = permGUI;
         this.messageManager = messageManager;
         this.itemManager = itemManager;
         this.permsManager = permsManager;
+        this.userManager = userManager;
     }
 
-    public Map<UUID, Menu> getMenus() {
-        return menus;
+    public void open(User user, Menu menu) {
+        menu.setTitle(menu.getTitle().replace("%target%", user.getTarget()).replace("%plugin%", user.getPlugin()));
+        if (menu.getListType() == null) menu.build();
+        else menu.buildList(user, permsManager);
+        user.getPlayer().openInventory(menu.getInventory());
+        user.setMenu(menu);
     }
 
-    public void open(Player player, Menu menu) {
-        player.openInventory(menu.getInventory());
-        menus.put(player.getUniqueId(), menu);
+    public Menu getMenu(User user) {
+        return user.getMenu();
     }
 
-    public Menu getMenu(Player player) {
-        return getMenus().get(player.getUniqueId());
+    public boolean hasMenu(User user) {
+        return user.getMenu() != null;
     }
 
-    public boolean hasMenu(Player player) {
-        return getMenus().containsKey(player.getUniqueId());
-    }
-
-    public Menu getMenu(String fileName, String itemName) {
+    public Menu getMenu(String fileName) {
         FileConfiguration menu = getMenuFile(fileName);
-        String strippedItemName = ChatColor.stripColor(itemName);
-        String finalStrippedItemName = strippedItemName;
-        if (strippedItemName == null
-                || Bukkit.getPlayer(strippedItemName) == null
-                || Arrays.asList(permsManager.getPerms().getGroups()).contains(strippedItemName)
-                || Arrays.stream(Bukkit.getPluginManager().getPlugins()).anyMatch(plugin -> plugin.getName().equalsIgnoreCase(finalStrippedItemName)))
-            strippedItemName = null;
         return new Menu()
                 .setItems(itemManager.getItems(fileName))
                 .setTitle(messageManager.color(menu.getString("title")))
@@ -69,7 +56,7 @@ public class MenuManager {
 
     public Menu getMainMenu() {
         String menu = permGUI.getConfig().getString("MainMenu");
-        return getMenu(menu, null);
+        return getMenu(menu);
     }
 
     public FileConfiguration getMenuFile(String fileName) {

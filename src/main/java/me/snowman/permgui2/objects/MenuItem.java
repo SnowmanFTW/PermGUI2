@@ -1,4 +1,4 @@
-package me.snowman.permgui2.managers;
+package me.snowman.permgui2.objects;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

@@ -1,6 +1,8 @@
 package me.snowman.permgui2.managers;
 
 import me.snowman.permgui2.PermGUI;
+import me.snowman.permgui2.objects.Menu;
+import me.snowman.permgui2.objects.MenuItem;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
