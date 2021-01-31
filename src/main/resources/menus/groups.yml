@@ -1,18 +1,17 @@
-title: "&f%plugin%&b's permissions"
-open-commands: []
+title: "&bGroups"
+open-commands: [ ]
 inventory-type: "CHEST"
-list: "perms"
+list: "groups"
 size: 54
 
 items:
-  "plugins":
-    material: PAPER
+  "groups":
+    material: DIAMOND
     amount: 1
-    name: "%target%"
-    lore: []
+    name: "&b%target%"
+    lore: [ ]
     actions:
-      - "[CHANGEPERM] %target%"
-      - "[OPEN] permissions.yml"
+      - "[OPEN] group_portal.yml"
   "previouspage":
     material: PLAYER_HEAD
     slot: 45
