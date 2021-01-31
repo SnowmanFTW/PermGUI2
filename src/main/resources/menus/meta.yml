@@ -14,7 +14,7 @@ items:
       - "&7Click to change"
       - "&7the prefix"
     actions:
-      - "[CHAT] prefix"
+      - "[PREFIX] %target%"
   "suffix":
     material: SUGAR
     slot: 15
@@ -24,4 +24,4 @@ items:
       - "&7Click to change"
       - "&7the suffix"
     actions:
-      - "[CHAT] suffix"
+      - "[SUFFIX] %target%"
