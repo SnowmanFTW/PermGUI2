@@ -3,6 +3,7 @@ package me.snowman.permgui2.objects;
 import me.snowman.permgui2.managers.PermsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
@@ -80,13 +81,17 @@ public class Menu {
                 String target = targets.get(index);
                 for (MenuItem item : getItems()) {
                     if (item.getSlot() == 0) {
-                        System.out.println(item.getName());
                         String name = item.getName();
                         item.setName(item.getName().replace("%target%", target));
                         if (getListType().equals("perms")) {
                             if (Bukkit.getServer().getPlayer(user.getTarget()) != null) {
                                 Player player = Bukkit.getServer().getPlayer(user.getTarget());
                                 if (player.hasPermission(target)) item.setName(ChatColor.GREEN + item.getName());
+                                else item.setName(ChatColor.DARK_RED + item.getName());
+                            } else if (Arrays.stream(permsManager.getPerms().getGroups()).map(group -> group.equals(user.getTarget())).anyMatch(aBoolean -> true)) {
+                                String group = user.getTarget();
+                                if (permsManager.getPerms().groupHas((World) null, group, target))
+                                    item.setName(ChatColor.GREEN + item.getName());
                                 else item.setName(ChatColor.DARK_RED + item.getName());
                             }
                         }

@@ -107,7 +107,6 @@ public class FileManager {
                         break;
                     String name = e.getName();
                     if (name.startsWith("menus/") && !name.equals("menus/")) {
-                        System.out.println(name);
                         menus.add(name);
                     }
                 }
