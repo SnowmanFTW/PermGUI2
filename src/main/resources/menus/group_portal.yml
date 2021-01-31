@@ -6,7 +6,7 @@ size: 27
 items:
   "meta":
     material: GLOWSTONE_DUST
-    slot: 12
+    slot: 10
     amount: 1
     name: "&bChange meta"
     lore:
@@ -37,14 +37,3 @@ items:
       - "&7of the group"
     actions:
       - "[OPEN] permissions.yml"
-  "perms":
-    material: OAK_SIGN
-    slot: 16
-    amount: 1
-    name: "&bChange permissions"
-    lore:
-      - ""
-      - "&7Click to change the perms"
-      - "&7of the player"
-    actions:
-      - "[OPEN] plugins.yml"

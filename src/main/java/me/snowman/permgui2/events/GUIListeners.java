@@ -10,11 +10,14 @@ import me.snowman.permgui2.objects.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
 
 public class GUIListeners implements Listener {
     private final MenuManager menuManager;
@@ -38,13 +41,17 @@ public class GUIListeners implements Listener {
         Menu menu = menuManager.getMenu(user);
         ItemStack currentItem = event.getCurrentItem();
         MenuItem item = itemManager.getItem(menu, currentItem, currentItem.getItemMeta().getDisplayName());
-        System.out.println(item);
         String itemName = item.getName();
 
         if (menu.getListType() != null) {
             switch (menu.getListType()) {
-                case "players" -> user.setTarget(itemName);
-                case "plugins" -> user.setPlugin(itemName);
+                case "players":
+                case "groups":
+                    user.setTarget(itemName);
+                    break;
+                case "plugins":
+                    user.setPlugin(itemName);
+                    break;
             }
         }
         for (String actions : item.getActions()) {
@@ -57,13 +64,16 @@ public class GUIListeners implements Listener {
                     break;
                 case "[CHANGEPERM]":
                     String targetString = arguments.replace("%target%", user.getTarget());
+                    String perm = ChatColor.stripColor(itemName);
                     if (Bukkit.getServer().getPlayer(targetString) != null) {
                         Player target = Bukkit.getServer().getPlayer(targetString);
-                        String perm = ChatColor.stripColor(itemName);
                         if (target.hasPermission(perm)) permsManager.getPerms().playerRemove(null, target, perm);
                         else permsManager.getPerms().playerAdd(null, target, perm);
-                        menuManager.open(user, menu);
                         break;
+                    } else if (Arrays.stream(permsManager.getPerms().getGroups()).map(group -> group.equals(user.getTarget())).anyMatch(aBoolean -> true)) {
+                        if (permsManager.getPerms().groupHas((World) null, targetString, perm))
+                            permsManager.getPerms().groupRemove((World) null, targetString, perm);
+                        else permsManager.getPerms().groupAdd((World) null, targetString, perm);
                     }
             }
         }
