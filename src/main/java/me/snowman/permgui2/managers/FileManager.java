@@ -7,12 +7,17 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.security.CodeSource;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class FileManager {
 
     private File messagesFile;
     private FileConfiguration messagesCfg;
-    private final String[] menus = {"portal", "players", "player_portal", "meta", "plugins", "permissions"};
 
     private final PermGUI permGUI;
     public FileManager(PermGUI permGUI){
@@ -28,7 +33,6 @@ public class FileManager {
         if(!messagesFile.exists()){
             permGUI.saveResource("messages.yml", true);
             messagesCfg = YamlConfiguration.loadConfiguration(messagesFile);
-//            Bukkit.getServer().getConsoleSender().sendMessage(PermGUI.messagesManager.getPrefix() + PermGUI.messagesManager.color("&bMessages file created successfully."));
         }
         if(messagesCfg == null) {
             messagesCfg = YamlConfiguration.loadConfiguration(messagesFile);
@@ -63,7 +67,6 @@ public class FileManager {
             if(Bukkit.getVersion().contains("1.12") || Bukkit.getVersion().contains("1.11") || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.8")){
                 permGUI.getConfig().set("Sound", "BLOCK_NOTE_PLING");
             }
-//            Bukkit.getServer().getConsoleSender().sendMessage(PermGUI.messagesManager.getPrefix() + PermGUI.messagesManager.color("&bConfig file created successfully."));
         }
     }
 
@@ -77,17 +80,41 @@ public class FileManager {
 
     public void saveConfig(){ permGUI.saveConfig(); }
 
-    public void setupGUIs(){
-        File menuFolder = new File(permGUI.getDataFolder(),  "menus" + File.separator);
-        if(!menuFolder.exists()){
+    public void setupGUIs() {
+        File menuFolder = new File(permGUI.getDataFolder(), "menus" + File.separator);
+        if (!menuFolder.exists()) {
             menuFolder.mkdir();
         }
-        for(String menu: menus){
-            File menuFile = new File(menuFolder, menu + ".yml");
-            if(!menuFile.exists()){
-                permGUI.saveResource("menus" + File.separator + menu + ".yml", true);
-//            Bukkit.getServer().getConsoleSender().sendMessage(PermGUI.messagesManager.getPrefix() + PermGUI.messagesManager.color("&bMessages file created successfully."));
+        for (String menu : getMenus()) {
+            File menuFile = new File(menuFolder, menu.replace("menus/", ""));
+            if (!menuFile.exists()) {
+                permGUI.saveResource(menu, true);
             }
         }
+    }
+
+    public Set<String> getMenus() {
+        //Thanks https://stackoverflow.com/a/1429275 :)
+        Set<String> menus = new HashSet<>();
+        CodeSource src = permGUI.getClass().getProtectionDomain().getCodeSource();
+        if (src != null) {
+            URL jar = src.getLocation();
+            try {
+                ZipInputStream zip = new ZipInputStream(jar.openStream());
+                while (true) {
+                    ZipEntry e = zip.getNextEntry();
+                    if (e == null)
+                        break;
+                    String name = e.getName();
+                    if (name.startsWith("menus/") && !name.equals("menus/")) {
+                        System.out.println(name);
+                        menus.add(name);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return menus;
     }
 }
