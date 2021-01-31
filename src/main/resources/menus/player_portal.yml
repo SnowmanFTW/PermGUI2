@@ -14,7 +14,7 @@ items:
       - "&7Click to change the group"
       - "&7of the player"
     actions:
-      - "[OPEN] groups.yml"
+      - "[OPEN] change_group.yml"
   "add":
     material: GOLD_NUGGET
     slot: 12
@@ -25,7 +25,7 @@ items:
       - "&7Click to add the group"
       - "&7to the player"
     actions:
-      - "[OPEN] groups.yml"
+      - "[OPEN] add_group.yml"
   "meta":
     material: GLOWSTONE_DUST
     slot: 14
