@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -37,10 +38,12 @@ public class GUIListeners implements Listener {
         User user = userManager.getUser(player);
         if (!menuManager.hasMenu(user)) return;
         if (event.getCurrentItem() == null || event.getCurrentItem().getType().equals(Material.AIR)) return;
+        event.setCancelled(true);
         Menu menu = menuManager.getMenu(user);
         ItemStack currentItem = event.getCurrentItem();
         if (currentItem.getItemMeta() == null) return;
         MenuItem item = itemManager.getItem(menu, currentItem, currentItem.getItemMeta().getDisplayName());
+        if (item == null) return;
         String itemName = ChatColor.stripColor(item.getName());
 
         if (menu.getListType() != null) {
@@ -63,6 +66,7 @@ public class GUIListeners implements Listener {
             switch (action) {
                 case "[OPEN]":
                     Menu openedMenu = menuManager.getMenu(arguments);
+                    user.setForceClosed(false);
                     menuManager.open(user, openedMenu);
                     break;
                 case "[CHANGEPERM]":
@@ -98,10 +102,20 @@ public class GUIListeners implements Listener {
                     else player.sendMessage(messageManager.getMessages("SuffixChat"));
                     break;
                 case "[CLOSE]":
+                    user.setForceClosed(true);
                     user.getPlayer().closeInventory();
                     user.setMenu(null);
             }
         }
-        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void closeMenu(InventoryCloseEvent event) {
+        Player player = (Player) event.getPlayer();
+        User user = userManager.getUser(player);
+
+        if (!user.hasForceClosed()) {
+            user.setMenu(null);
+        }
     }
 }

@@ -9,6 +9,7 @@ public class User {
     private String plugin = "";
     private Menu menu;
     private String chat;
+    private boolean forceClosed;
 
     public User(Player player) {
         this.player = player;
@@ -56,5 +57,13 @@ public class User {
 
     public void setChat(String chat) {
         this.chat = chat;
+    }
+
+    public boolean hasForceClosed() {
+        return forceClosed;
+    }
+
+    public void setForceClosed(boolean forceClosed) {
+        this.forceClosed = forceClosed;
     }
 }
