@@ -1,17 +1,18 @@
 Prefix: "&bPermGUI &f- "
 
 #Prefix section
-PrefixChatPlayer: "&bChat your desired player prefix. Type &f'cancel' &bto cancel. Type &f'none' &bto remove."
-PrefixChatGroup: "&bChat your desired group prefix. Type &f'cancel' &bto cancel. Type &f'none' &bto remove."
+PrefixChat: "&bChat your desired prefix. Type &f'cancel' &bto cancel. Type &f'none' &bto remove."
 PrefixSet: "&bPrefix &f%prefix% &bhas been added!"
 PrefixRemoved: "&bPrefix has been removed!"
 
 #Suffix section
-SuffixChatPlayer: "&bChat your desired player suffix. Type &f'cancel' &bto cancel. Type &f'none' &bto remove."
-SuffixChatGroup: "&bChat your desired group suffix. Type &f'cancel' &bto cancel. Type &f'none' &bto remove."
+SuffixChat: "&bChat your desired suffix. Type &f'cancel' &bto cancel. Type &f'none' &bto remove."
 SuffixSet: "&bSuffix &f%suffix% &bhas been added!"
 SuffixRemoved: "&bSuffix has been removed!"
 
 #Group section
 GroupChat: "&bChat your desired group name. Type &f'cancel' to cancel."
 GroupCreate: "&bGroup 7f%group% &bcreated."
+
+#General
+Cancel: "&bOperation has been cancelled!"
