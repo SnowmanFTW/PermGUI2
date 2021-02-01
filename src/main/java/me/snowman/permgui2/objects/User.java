@@ -8,6 +8,7 @@ public class User {
     private String target = "";
     private String plugin = "";
     private Menu menu;
+    private String chat;
 
     public User(Player player) {
         this.player = player;
@@ -39,5 +40,21 @@ public class User {
 
     public void setMenu(Menu menu) {
         this.menu = menu;
+    }
+
+    public String getChat() {
+        return chat;
+    }
+
+    public void removeChat() {
+        this.chat = null;
+    }
+
+    public boolean isChat() {
+        return chat != null;
+    }
+
+    public void setChat(String chat) {
+        this.chat = chat;
     }
 }
