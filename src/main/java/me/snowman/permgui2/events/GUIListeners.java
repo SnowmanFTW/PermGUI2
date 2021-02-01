@@ -40,6 +40,7 @@ public class GUIListeners implements Listener {
         if (event.getCurrentItem() == null || event.getCurrentItem().getType().equals(Material.AIR)) return;
         Menu menu = menuManager.getMenu(user);
         ItemStack currentItem = event.getCurrentItem();
+        if (currentItem.getItemMeta() == null) return;
         MenuItem item = itemManager.getItem(menu, currentItem, currentItem.getItemMeta().getDisplayName());
         String itemName = ChatColor.stripColor(item.getName());
 
@@ -59,6 +60,7 @@ public class GUIListeners implements Listener {
             String arguments = actions.substring(actions.indexOf(" ") + 1);
             String targetString = arguments.replace("%target%", user.getTarget());
             Player target = Bukkit.getServer().getPlayer(targetString);
+            if (target == null) return;
             switch (action) {
                 case "[OPEN]":
                     Menu openedMenu = menuManager.getMenu(arguments);
@@ -87,7 +89,12 @@ public class GUIListeners implements Listener {
                 case "[ADDGROUP]":
                     permsManager.getPerms().playerAddGroup(null, target, itemName);
                     user.getPlayer().closeInventory();
-
+                    break;
+                case "[PREFIX]":
+                case "[SUFFIX]":
+                    user.setChat(action.replace("[", "").replace("]", "").toLowerCase());
+                case "[CLOSE]":
+                    user.getPlayer().closeInventory();
             }
         }
         event.setCancelled(true);
