@@ -36,4 +36,4 @@ items:
       - "&7Click to change the perms"
       - "&7of the group"
     actions:
-      - "[OPEN] permissions.yml"
+      - "[OPEN] plugins.yml"
