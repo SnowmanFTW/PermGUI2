@@ -1,9 +1,6 @@
 package me.snowman.permgui2.events;
 
-import me.snowman.permgui2.managers.ItemManager;
-import me.snowman.permgui2.managers.MenuManager;
-import me.snowman.permgui2.managers.PermsManager;
-import me.snowman.permgui2.managers.UserManager;
+import me.snowman.permgui2.managers.*;
 import me.snowman.permgui2.objects.Menu;
 import me.snowman.permgui2.objects.MenuItem;
 import me.snowman.permgui2.objects.User;
@@ -24,12 +21,14 @@ public class GUIListeners implements Listener {
     private final ItemManager itemManager;
     private final PermsManager permsManager;
     private final UserManager userManager;
+    private final MessageManager messageManager;
 
-    public GUIListeners(MenuManager menuManager, ItemManager itemManager, PermsManager permsManager, UserManager userManager) {
+    public GUIListeners(MenuManager menuManager, ItemManager itemManager, PermsManager permsManager, UserManager userManager, MessageManager messageManager) {
         this.menuManager = menuManager;
         this.permsManager = permsManager;
         this.itemManager = itemManager;
         this.userManager = userManager;
+        this.messageManager = messageManager;
     }
 
     @EventHandler
@@ -56,11 +55,11 @@ public class GUIListeners implements Listener {
             }
         }
         for (String actions : item.getActions()) {
-            String action = actions.substring(0, actions.indexOf(" "));
+            String action = actions;
+            if (actions.contains(" ")) action = actions.substring(0, actions.indexOf(" "));
             String arguments = actions.substring(actions.indexOf(" ") + 1);
             String targetString = arguments.replace("%target%", user.getTarget());
             Player target = Bukkit.getServer().getPlayer(targetString);
-            if (target == null) return;
             switch (action) {
                 case "[OPEN]":
                     Menu openedMenu = menuManager.getMenu(arguments);
@@ -68,6 +67,7 @@ public class GUIListeners implements Listener {
                     break;
                 case "[CHANGEPERM]":
                     if (Bukkit.getServer().getPlayer(targetString) != null) {
+                        if (target == null) return;
                         if (target.hasPermission(itemName))
                             permsManager.getPerms().playerRemove(null, target, itemName);
                         else permsManager.getPerms().playerAdd(null, target, itemName);
@@ -92,9 +92,14 @@ public class GUIListeners implements Listener {
                     break;
                 case "[PREFIX]":
                 case "[SUFFIX]":
-                    user.setChat(action.replace("[", "").replace("]", "").toLowerCase());
+                    user.setChat(action);
+                    if (action.toLowerCase().contains("prefix"))
+                        player.sendMessage(messageManager.getMessages("PrefixChat"));
+                    else player.sendMessage(messageManager.getMessages("SuffixChat"));
+                    break;
                 case "[CLOSE]":
                     user.getPlayer().closeInventory();
+                    user.setMenu(null);
             }
         }
         event.setCancelled(true);

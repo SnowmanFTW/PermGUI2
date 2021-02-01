@@ -15,6 +15,7 @@ items:
       - "&7the prefix"
     actions:
       - "[PREFIX] %target%"
+      - "[CLOSE]"
   "suffix":
     material: SUGAR
     slot: 15
@@ -25,3 +26,4 @@ items:
       - "&7the suffix"
     actions:
       - "[SUFFIX] %target%"
+      - "[CLOSE]"
