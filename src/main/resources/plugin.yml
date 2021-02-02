@@ -1,0 +1,12 @@
+main: me.snowman.permgui2.PermGUI
+name: PermGUI2
+version: 2.0.0 BETA 3
+author: SnowmanFTW
+depend: [Vault]
+api-version: 1.13
+
+commands:
+  perms2:
+    usage: /<command>
+    description: xd
+    aliases: [permgui2, perm2]
