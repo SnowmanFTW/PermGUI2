@@ -16,20 +16,20 @@ public class MenuManager {
     private final MessageManager messageManager;
     private final ItemManager itemManager;
     private final PermsManager permsManager;
-    private final UserManager userManager;
+    private final PremadeManager premadeManager;
 
-    public MenuManager(PermGUI permGUI, ItemManager itemManager, MessageManager messageManager, PermsManager permsManager, UserManager userManager) {
+    public MenuManager(PermGUI permGUI, ItemManager itemManager, MessageManager messageManager, PermsManager permsManager, PremadeManager premadeManager) {
         this.permGUI = permGUI;
         this.messageManager = messageManager;
         this.itemManager = itemManager;
         this.permsManager = permsManager;
-        this.userManager = userManager;
+        this.premadeManager = premadeManager;
     }
 
     public void open(User user, Menu menu) {
         menu.setTitle(menu.getTitle().replace("%target%", user.getTarget()).replace("%plugin%", user.getPlugin()));
         if (menu.getListType() == null) menu.build();
-        else menu.buildList(user, permsManager);
+        else menu.buildList(user, permsManager, premadeManager);
         user.getPlayer().openInventory(menu.getInventory());
         user.setMenu(menu);
     }

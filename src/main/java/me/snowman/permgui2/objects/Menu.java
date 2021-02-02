@@ -1,6 +1,7 @@
 package me.snowman.permgui2.objects;
 
 import me.snowman.permgui2.managers.PermsManager;
+import me.snowman.permgui2.managers.PremadeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -65,15 +66,18 @@ public class Menu {
         return this;
     }
 
-    public void buildList(User user, PermsManager permsManager) {
+    public void buildList(User user, PermsManager permsManager, PremadeManager premadeManager) {
         this.inventory = Bukkit.createInventory(null, getSize(), getTitle());
-        LinkedList<String> targets = retrieveTargets(getListType(), user, permsManager);
+        LinkedList<String> targets = retrieveTargets(getListType(), user, permsManager, premadeManager);
 
         int page = getPage();
         int size = targets.size();
         int maxPage = size / 45 + 1;
         if (size % 45 == 0) maxPage = size / 45;
         if (page > maxPage) page = maxPage;
+        if (size == 0) {
+            return;
+        }
 
         for (int slot = 0; slot < 45; slot++) {
             int index = slot + ((page - 1) * 45);
@@ -155,7 +159,7 @@ public class Menu {
         return this;
     }
 
-    public LinkedList<String> retrieveTargets(String listType, User user, PermsManager permsManager) {
+    public LinkedList<String> retrieveTargets(String listType, User user, PermsManager permsManager, PremadeManager premadeManager) {
         switch (listType) {
             case "players":
                 return new LinkedList<>(getServer().getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList()));
@@ -167,6 +171,8 @@ public class Menu {
                 return new LinkedList<>(Arrays.stream(getServer().getPluginManager().getPlugins()).map(Plugin::getName).collect(Collectors.toList()));
             case "perms":
                 return new LinkedList<>(getServer().getPluginManager().getPlugin(user.getPlugin()).getDescription().getPermissions().stream().map(Permission::getName).collect(Collectors.toList()));
+            case "premades":
+                return new LinkedList<>(premadeManager.getPremades());
         }
         return null;
     }
