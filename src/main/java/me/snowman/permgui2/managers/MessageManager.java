@@ -17,7 +17,7 @@ public class MessageManager {
 
 
     public String getPrefix(){
-        return getMessages("Prefix") + " ";
+        return fileManager.getMessages().getString("Prefix") + " ";
     }
 
     public String color(String s){
@@ -29,7 +29,6 @@ public class MessageManager {
     }
 
     public String getMessages(String s){
-        if (s.equals("Prefix")) return fileManager.getMessages().getString("Prefix");
-        return ChatColor.translateAlternateColorCodes('&', fileManager.getMessages().getString("Prefix") + fileManager.getMessages().getString(s));
+        return ChatColor.translateAlternateColorCodes('&', getPrefix() + fileManager.getMessages().getString(s));
     }
 }

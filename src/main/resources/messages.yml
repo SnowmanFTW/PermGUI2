@@ -16,3 +16,5 @@ GroupCreate: "&bGroup 7f%group% &bcreated."
 
 #General
 Cancel: "&bOperation has been cancelled!"
+NoPerm: "&bNo permission to execute that command."
+NoConsole: "&bThis command can't be used in the console."

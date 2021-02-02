@@ -1,9 +1,8 @@
 main: me.snowman.permgui2.PermGUI
 name: PermGUI2
-version: 2.0.0
+version: 2.0.0 BETA 3
 author: SnowmanFTW
 depend: [Vault]
-softdepend: [LuckPerms, PermissionsEx, GroupManager]
 api-version: 1.13
 
 commands:
