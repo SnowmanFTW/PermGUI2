@@ -75,47 +75,48 @@ public class Menu {
         int maxPage = size / 45 + 1;
         if (size % 45 == 0) maxPage = size / 45;
         if (page > maxPage) page = maxPage;
-        if (size == 0) {
-            return;
-        }
 
-        for (int slot = 0; slot < 45; slot++) {
-            int index = slot + ((page - 1) * 45);
-            if (index < size) {
-                String target = targets.get(index);
-                for (MenuItem item : getItems()) {
-                    if (item.getSlot() == 0) {
-                        String name = item.getName();
-                        item.setName(item.getName().replace("%target%", target));
-                        if (getListType().equals("perms")) {
-                            if (Bukkit.getServer().getPlayer(user.getTarget()) != null) {
-                                Player player = Bukkit.getServer().getPlayer(user.getTarget());
-                                if (player.hasPermission(target)) item.setName(ChatColor.GREEN + item.getName());
-                                else item.setName(ChatColor.DARK_RED + item.getName());
-                            } else if (Arrays.stream(permsManager.getPerms().getGroups()).map(group -> group.equals(user.getTarget())).anyMatch(aBoolean -> true)) {
-                                String group = user.getTarget();
-                                if (permsManager.getPerms().groupHas((World) null, group, target))
-                                    item.setName(ChatColor.GREEN + item.getName());
-                                else item.setName(ChatColor.DARK_RED + item.getName());
+        if (size > 0) {
+            for (int slot = 0; slot < 45; slot++) {
+                int index = slot + ((page - 1) * 45);
+                if (index < size) {
+                    String target = targets.get(index);
+                    for (MenuItem item : getItems()) {
+                        if (item.getSlot() == 0) {
+                            String name = item.getName();
+                            item.setName(item.getName().replace("%target%", target));
+                            if (getListType().equals("perms")) {
+                                if (Bukkit.getServer().getPlayer(user.getTarget()) != null) {
+                                    Player player = Bukkit.getServer().getPlayer(user.getTarget());
+                                    if (player.hasPermission(target)) item.setName(ChatColor.GREEN + item.getName());
+                                    else item.setName(ChatColor.DARK_RED + item.getName());
+                                } else if (Arrays.stream(permsManager.getPerms().getGroups()).map(group -> group.equals(user.getTarget())).anyMatch(aBoolean -> true)) {
+                                    String group = user.getTarget();
+                                    if (permsManager.getPerms().groupHas((World) null, group, target))
+                                        item.setName(ChatColor.GREEN + item.getName());
+                                    else item.setName(ChatColor.DARK_RED + item.getName());
+                                }
                             }
+                            getInventory().setItem(slot, item.getItem());
+                            item.setName(name);
                         }
-                        getInventory().setItem(slot, item.getItem());
-                        item.setName(name);
                     }
                 }
-            } else break;
+            }
         }
         for (MenuItem item : getItems()) {
             if (item.getSlot() != 0) {
-                if (size > 45 && page == 1) {
-                    if (item.getActions().contains("[NEXTPAGE]"))
+                if (item.getActions().contains("[NEXTPAGE]") || item.getActions().contains("[PREVIOUSPAGE]")) {
+                    if (size > 45 && page == 1) {
+                        if (item.getActions().contains("[NEXTPAGE]"))
+                            getInventory().setItem(item.getSlot(), item.getItem());
+                    } else if (size > 45) {
                         getInventory().setItem(item.getSlot(), item.getItem());
-                } else if (size > 45) {
-                    getInventory().setItem(item.getSlot(), item.getItem());
-                } else if (page == maxPage && size > 90) {
-                    if (item.getActions().contains("[PREVIOUSPAGE]"))
-                        getInventory().setItem(item.getSlot(), item.getItem());
-                }
+                    } else if (page == maxPage && size > 90) {
+                        if (item.getActions().contains("[PREVIOUSPAGE]"))
+                            getInventory().setItem(item.getSlot(), item.getItem());
+                    }
+                } else getInventory().setItem(item.getSlot(), item.getItem());
             }
         }
     }

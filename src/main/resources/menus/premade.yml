@@ -13,7 +13,20 @@ items:
       - ""
       - "&7Click to select this premade"
     actions:
-      - "[PREMADE] %target%"
+      - "[PREMADE] ADD"
+      - "[CLOSE]"
+  "create":
+    material: WRITABLE_BOOK
+    slot: 49
+    amount: 1
+    name: "&bCreate premade"
+    lore:
+      - ""
+      - "&7Click to create a premade"
+      - "&7Of your current permission setup"
+    actions:
+      - "[PREMADE] CREATE"
+      - "[CLOSE]"
   "previouspage":
     material: PLAYER_HEAD
     slot: 45

@@ -15,9 +15,13 @@ import static org.bukkit.Bukkit.getServer;
 
 public class PremadeManager {
     private final PermGUI permGUI;
+    private final FileManager fileManager;
+    private final PermsManager permsManager;
 
-    public PremadeManager(PermGUI permGUI) {
+    public PremadeManager(PermGUI permGUI, FileManager fileManager, PermsManager permsManager) {
         this.permGUI = permGUI;
+        this.fileManager = fileManager;
+        this.permsManager = permsManager;
     }
 
     public Premade getPremade(String fileName) {
@@ -48,5 +52,10 @@ public class PremadeManager {
             return null;
         }
         return YamlConfiguration.loadConfiguration(premadeFile);
+    }
+
+    public void createPremade(String name) {
+        FileConfiguration premadeFile = fileManager.createPremade(name);
+
     }
 }

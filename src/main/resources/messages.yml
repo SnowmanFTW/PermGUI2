@@ -10,6 +10,10 @@ SuffixChat: "&bChat your desired suffix. Type &f'cancel' &bto cancel. Type &f'no
 SuffixSet: "&bSuffix &f%suffix% &bhas been added!"
 SuffixRemoved: "&bSuffix has been removed!"
 
+#Premade section
+PremadeChat: "&bChat your desired premade name. Type &f'cancel' &bto cancel."
+PremadeSet: "&bPremade &f%premade% &bhas been added!"
+
 #Group section
 GroupChat: "&bChat your desired group name. Type &f'cancel' to cancel."
 GroupCreate: "&bGroup 7f%group% &bcreated."

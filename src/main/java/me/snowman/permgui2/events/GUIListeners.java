@@ -101,6 +101,11 @@ public class GUIListeners implements Listener {
                         player.sendMessage(messageManager.getMessages("PrefixChat"));
                     else player.sendMessage(messageManager.getMessages("SuffixChat"));
                     break;
+                case "[PREMADE]":
+                    user.setChat(action);
+                    user.setTarget(targetString);
+                    player.sendMessage(messageManager.getMessages("PremadeChat"));
+                    break;
                 case "[CLOSE]":
                     user.setForceClosed(true);
                     user.getPlayer().closeInventory();

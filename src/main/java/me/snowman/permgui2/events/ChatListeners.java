@@ -2,6 +2,7 @@ package me.snowman.permgui2.events;
 
 import me.snowman.permgui2.managers.MessageManager;
 import me.snowman.permgui2.managers.PermsManager;
+import me.snowman.permgui2.managers.PremadeManager;
 import me.snowman.permgui2.managers.UserManager;
 import me.snowman.permgui2.objects.User;
 import org.bukkit.Bukkit;
@@ -17,11 +18,13 @@ public class ChatListeners implements Listener {
     private final MessageManager messageManager;
     private final PermsManager permsManager;
     private final UserManager userManager;
+    private final PremadeManager premadeManager;
 
-    public ChatListeners(MessageManager messageManager, PermsManager permsManager, UserManager userManager) {
+    public ChatListeners(MessageManager messageManager, PermsManager permsManager, UserManager userManager, PremadeManager premadeManager) {
         this.messageManager = messageManager;
         this.permsManager = permsManager;
         this.userManager = userManager;
+        this.premadeManager = premadeManager;
     }
 
     @EventHandler
@@ -37,9 +40,9 @@ public class ChatListeners implements Listener {
             user.removeChat();
             return;
         }
-        String action = user.getChat();
+        String action = user.getChat().toLowerCase();
         String targetString = user.getTarget();
-        if (action.toLowerCase().contains("prefix")) {
+        if (action.contains("prefix")) {
             if (Bukkit.getServer().getPlayer(targetString) != null) {
                 Player target = Bukkit.getServer().getPlayer(targetString);
                 if (message.equals("none")) {
@@ -57,7 +60,7 @@ public class ChatListeners implements Listener {
                 permsManager.getChat().setGroupPrefix((World) null, targetString, message);
             }
             player.sendMessage(messageManager.getMessages("PrefixSet").replace("%prefix%", message));
-        } else {
+        } else if (action.contains("suffix")) {
             if (Bukkit.getServer().getPlayer(targetString) != null) {
                 Player target = Bukkit.getServer().getPlayer(targetString);
                 if (message.equals("none")) {
@@ -75,6 +78,11 @@ public class ChatListeners implements Listener {
                 permsManager.getChat().setGroupSuffix((World) null, targetString, message);
             }
             player.sendMessage(messageManager.getMessages("SuffixSet").replace("%suffix%", message));
+        } else if (action.contains("premade")) {
+            if (targetString.equalsIgnoreCase("create")) {
+                premadeManager.createPremade(message);
+                player.sendMessage(messageManager.getMessages("PremadeSet").replace("%premade%", message));
+            }
         }
 
         user.removeChat();
