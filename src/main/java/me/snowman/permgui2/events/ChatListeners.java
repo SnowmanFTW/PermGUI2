@@ -81,7 +81,7 @@ public class ChatListeners implements Listener {
             player.sendMessage(messageManager.getMessages("SuffixSet").replace("%suffix%", message));
         } else if (action.contains("premade")) {
             if (targetString.equalsIgnoreCase("create")) {
-                premadeManager.createPremade(message);
+                premadeManager.createPremade(message, user);
                 player.sendMessage(messageManager.getMessages("PremadeSet").replace("%premade%", message));
             }
             if (targetString.equalsIgnoreCase("add")) {

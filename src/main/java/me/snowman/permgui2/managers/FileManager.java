@@ -133,4 +133,20 @@ public class FileManager {
         return YamlConfiguration.loadConfiguration(premadeFile);
     }
 
+    public void savePremade(String name, FileConfiguration config) {
+        File menuFolder = new File(permGUI.getDataFolder(), "premades" + File.separator);
+        if (!menuFolder.exists()) {
+            menuFolder.mkdir();
+        }
+        File premadeFile = new File(menuFolder, name + ".yml");
+        if (premadeFile.exists()) {
+            try {
+                config.save(premadeFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 }

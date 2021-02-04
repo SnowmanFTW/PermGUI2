@@ -2,15 +2,17 @@ package me.snowman.permgui2.managers;
 
 import me.snowman.permgui2.PermGUI;
 import me.snowman.permgui2.objects.Premade;
+import me.snowman.permgui2.objects.User;
+import net.luckperms.api.model.group.Group;
+import net.luckperms.api.node.NodeType;
+import net.luckperms.api.node.types.PermissionNode;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -18,11 +20,13 @@ public class PremadeManager {
     private final PermGUI permGUI;
     private final FileManager fileManager;
     private final PermsManager permsManager;
+    private final MessageManager messageManager;
 
-    public PremadeManager(PermGUI permGUI, FileManager fileManager, PermsManager permsManager) {
+    public PremadeManager(PermGUI permGUI, FileManager fileManager, PermsManager permsManager, MessageManager messageManager) {
         this.permGUI = permGUI;
         this.fileManager = fileManager;
         this.permsManager = permsManager;
+        this.messageManager = messageManager;
     }
 
     public Premade getPremade(String fileName) {
@@ -55,12 +59,21 @@ public class PremadeManager {
         return YamlConfiguration.loadConfiguration(premadeFile);
     }
 
-    public void createPremade(String name) {
+    public void createPremade(String name, User user) {
         FileConfiguration premadeFile = fileManager.createPremade(name);
-
+        int max = permsManager.getPerms().getGroups().length;
+        if (!permsManager.isLuckPerms()) return;
+        int i = 0;
         for (String groups : permsManager.getPerms().getGroups()) {
-
+            Group group = permsManager.getLuckPerms().getGroupManager().getGroup(groups);
+            List<String> perms = group.getNodes(NodeType.PERMISSION).stream()
+                    .map(PermissionNode::getPermission)
+                    .collect(Collectors.toList());
+            premadeFile.set(groups, perms);
+            i++;
+            user.sendActionBar(messageManager.getPercent(i, max));
         }
+        fileManager.savePremade(name, premadeFile);
     }
     
     public void loadPremade(Premade premade) {

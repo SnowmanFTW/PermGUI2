@@ -1,6 +1,8 @@
 package me.snowman.permgui2.managers;
 
 import me.snowman.permgui2.PermGUI;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
@@ -45,12 +47,20 @@ public class PermsManager {
         chat = rsp.getProvider();
         return chat != null;
     }
-    
-    public Permission getPerms(){
+
+    public Permission getPerms() {
         return perms;
     }
-    
-    public Chat getChat(){
+
+    public Chat getChat() {
         return chat;
+    }
+
+    public boolean isLuckPerms() {
+        return Bukkit.getServer().getPluginManager().isPluginEnabled("LuckPerms");
+    }
+
+    public LuckPerms getLuckPerms() {
+        return LuckPermsProvider.get();
     }
 }

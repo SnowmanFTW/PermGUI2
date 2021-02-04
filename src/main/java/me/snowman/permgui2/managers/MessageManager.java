@@ -24,11 +24,18 @@ public class MessageManager {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 
-    public List<String> color(List<String> list){
+    public List<String> color(List<String> list) {
         return list.stream().map(this::color).collect(Collectors.toList());
     }
 
-    public String getMessages(String s){
+    public String getMessages(String s) {
         return ChatColor.translateAlternateColorCodes('&', getPrefix() + fileManager.getMessages().getString(s));
     }
+
+    public String getPercent(float number, float max) {
+        float percent = (max / number) * 100;
+        if (percent % 1 == 0.0) return color("&b" + (int) percent + "&f%");
+        return color("&b" + percent + "&f%");
+    }
+
 }

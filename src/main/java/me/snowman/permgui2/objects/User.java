@@ -1,5 +1,7 @@
 package me.snowman.permgui2.objects;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -65,5 +67,9 @@ public class User {
 
     public void setForceClosed(boolean forceClosed) {
         this.forceClosed = forceClosed;
+    }
+
+    public void sendActionBar(String message) {
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText((message)));
     }
 }
