@@ -13,6 +13,7 @@ SuffixRemoved: "&bSuffix has been removed!"
 #Premade section
 PremadeChat: "&bChat your desired premade name. Type &f'cancel' &bto cancel."
 PremadeSet: "&bPremade &f%premade% &bhas been added!"
+NoPremade: "&bPremade &f%premade% &bdoesn't exist"
 
 #Group section
 GroupChat: "&bChat your desired group name. Type &f'cancel' to cancel."

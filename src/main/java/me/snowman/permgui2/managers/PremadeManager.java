@@ -2,6 +2,7 @@ package me.snowman.permgui2.managers;
 
 import me.snowman.permgui2.PermGUI;
 import me.snowman.permgui2.objects.Premade;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -57,5 +58,16 @@ public class PremadeManager {
     public void createPremade(String name) {
         FileConfiguration premadeFile = fileManager.createPremade(name);
 
+        for (String groups : permsManager.getPerms().getGroups()) {
+
+        }
+    }
+    
+    public void loadPremade(Premade premade) {
+        for (String groups : premade.getGroups()) {
+            for (String perms : premade.getPerms(groups)) {
+                permsManager.getPerms().groupAdd((World) null, groups, perms);
+            }
+        }
     }
 }

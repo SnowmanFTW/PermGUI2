@@ -4,6 +4,7 @@ import me.snowman.permgui2.managers.MessageManager;
 import me.snowman.permgui2.managers.PermsManager;
 import me.snowman.permgui2.managers.PremadeManager;
 import me.snowman.permgui2.managers.UserManager;
+import me.snowman.permgui2.objects.Premade;
 import me.snowman.permgui2.objects.User;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -82,6 +83,15 @@ public class ChatListeners implements Listener {
             if (targetString.equalsIgnoreCase("create")) {
                 premadeManager.createPremade(message);
                 player.sendMessage(messageManager.getMessages("PremadeSet").replace("%premade%", message));
+            }
+            if (targetString.equalsIgnoreCase("add")) {
+                Premade premade = premadeManager.getPremade(event.getMessage());
+                if (premade == null) {
+                    player.sendMessage(messageManager.getMessages("NoPremade").replace("%premade%", message));
+                    return;
+                }
+                premadeManager.loadPremade(premade);
+
             }
         }
 
