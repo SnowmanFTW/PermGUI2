@@ -8,7 +8,7 @@ The best permission plugin companion on spigot
 # Why open source?
 Because now i feel much better about my code in general and so you can help me make this a better project!
 
-# Conrtibuting
+# Contributing
 If you would like to contribute by help fixing bugs or adding new features by making a pull request as long as you keep the code structure clean.
 If you contributed to the plugin a way you can join the discord server to get the contributor role.
 
