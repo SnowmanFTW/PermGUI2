@@ -3,7 +3,10 @@ package me.snowman.permgui2.managers;
 import me.snowman.permgui2.PermGUI;
 import me.snowman.permgui2.objects.Premade;
 import me.snowman.permgui2.objects.User;
+import net.luckperms.api.actionlog.ActionLog;
+import net.luckperms.api.model.data.DataMutateResult;
 import net.luckperms.api.model.group.Group;
+import net.luckperms.api.node.Node;
 import net.luckperms.api.node.NodeType;
 import net.luckperms.api.node.types.PermissionNode;
 import org.bukkit.World;
@@ -12,6 +15,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static org.bukkit.Bukkit.getServer;
@@ -30,12 +34,13 @@ public class PremadeManager {
     }
 
     public Premade getPremade(String fileName) {
-        FileConfiguration premade = getPremadeFile(fileName);
+        YamlConfiguration premade = getPremadeFile(fileName);
         Map<String, Set<String>> premades = new HashMap<>();
         for (String groups : premade.getKeys(false)) {
-            for (String perms : premade.getStringList(groups)) {
-                premades.get(groups).add(perms);
-            }
+            Set<String> allPerms = new TreeSet<>();
+            allPerms.addAll(premade.getStringList(groups));
+            premades.put(groups, allPerms);
+
         }
         return new Premade().setGroupPerms(premades);
     }
@@ -50,7 +55,7 @@ public class PremadeManager {
         return premades;
     }
 
-    public FileConfiguration getPremadeFile(String fileName) {
+    public YamlConfiguration getPremadeFile(String fileName) {
         File premadeFile = new File(permGUI.getDataFolder(), "premades" + File.separator + fileName);
         if (!premadeFile.exists()) {
             getServer().getConsoleSender().sendMessage(fileName + " doesn't exist!");
@@ -76,11 +81,29 @@ public class PremadeManager {
         fileManager.savePremade(name, premadeFile);
     }
     
-    public void loadPremade(Premade premade) {
+    public void loadPremade(Premade premade, User user, boolean wipe) {
+        int max = premade.getGroups().size();
+        int i = 0;
         for (String groups : premade.getGroups()) {
+            CompletableFuture<ActionLog> logFuture = permsManager.getLuckPerms().getActionLogger().getLog();
+            if(permsManager.getLuckPerms().getGroupManager().getGroup(groups) == null){
+                permsManager.getLuckPerms().getGroupManager().createAndLoadGroup(groups);
+            }
+            logFuture.join();
+            if(wipe) wipeGroup(groups);
             for (String perms : premade.getPerms(groups)) {
                 permsManager.getPerms().groupAdd((World) null, groups, perms);
             }
+            i++;
+            user.sendActionBar(messageManager.getPercent(i, max));
         }
+    }
+
+    public void wipeGroup(String string){
+        Group group = permsManager.getLuckPerms().getGroupManager().getGroup(string);
+        for(Node node: group.getNodes(NodeType.PERMISSION)){
+            DataMutateResult result = group.data().remove(node);
+        }
+        permsManager.getLuckPerms().getGroupManager().saveGroup(group);
     }
 }

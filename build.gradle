@@ -3,6 +3,10 @@ plugins {
 }
 group 'me.snowman'
 version '2.0.0'
+libsDirName = 'C:\\Users\\Snowman\\Desktop\\Code\\TestServer\\plugins'
+jar {
+    archiveName 'PermGUI2.jar'
+}
 
 repositories {
     mavenCentral()
