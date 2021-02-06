@@ -2,8 +2,10 @@ package me.snowman.permgui2.managers;
 
 import me.snowman.permgui2.PermGUI;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -147,6 +149,31 @@ public class FileManager {
             }
         }
 
+    }
+
+    public boolean convertOld(Player player){
+        File oldFolder = new File("plugins/PermGUI");
+        if(!oldFolder.exists()){
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', getMessages().getString("Prefix") + " &bYou never installed PermGUI1 on this server!"));
+            return false;
+        }
+        File oldFile = new File(oldFolder + "/messages.yml");
+        YamlConfiguration oldMessages = YamlConfiguration.loadConfiguration(oldFile);
+
+        getMessages().set("Prefix", oldMessages.getString("Prefix"));
+        getMessages().set("NoConsole", oldMessages.getString("OldConsole"));
+        getMessages().set("Help", oldMessages.getStringList("Help"));
+        getMessages().set("Reload", oldMessages.getString("Reload"));
+        getMessages().set("GroupChat", oldMessages.getString("ChatCreateGroup"));
+        getMessages().set("Cancel", oldMessages.getString("ChatCancelled"));
+        getMessages().set("PrefixRemoved", oldMessages.getString("ChatPrefixRemoved"));
+        getMessages().set("PrefixSet", oldMessages.getString("ChatPrefixAdded"));
+        getMessages().set("SuffixRemoved", oldMessages.getString("ChatSuffixRemoved"));
+        getMessages().set("SuffixSet", oldMessages.getString("ChatSuffixAdded"));
+        getMessages().set("GroupCreate", oldMessages.getString("ChatGroupCreated"));
+        getMessages().set("NoPerm", oldMessages.getString("NoPerm"));
+        saveMessages();
+        return true;
     }
 
 }

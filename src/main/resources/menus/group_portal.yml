@@ -15,17 +15,6 @@ items:
       - "&7of the group"
     actions:
       - "[OPEN] meta.yml"
-  "premade":
-    material: WRITABLE_BOOK
-    slot: 13
-    amount: 1
-    name: "&bPremade permissions"
-    lore:
-      - ""
-      - "&7Click to change the permissions"
-      - "&7of the group to a premade"
-    actions:
-      - "[OPEN] premade.yml"
   "permissions":
     material: OAK_SIGN
     slot: 16

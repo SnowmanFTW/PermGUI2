@@ -84,15 +84,10 @@ public class ChatListeners implements Listener {
                 premadeManager.createPremade(message, user);
                 player.sendMessage(messageManager.getMessages("PremadeSet").replace("%premade%", message));
             }
-            if (targetString.equalsIgnoreCase("add")) {
-                Premade premade = premadeManager.getPremade(event.getMessage());
-                if (premade == null) {
-                    player.sendMessage(messageManager.getMessages("NoPremade").replace("%premade%", message));
-                    return;
-                }
-                premadeManager.loadPremade(premade);
-
-            }
+        } else if (action.contains("creategroup")){
+            if(!permsManager.isLuckPerms()) return;
+            permsManager.getLuckPerms().getGroupManager().createAndLoadGroup(message);
+            player.sendMessage(messageManager.getMessages("GroupCreate").replace("%group%", message));
         }
 
         user.removeChat();

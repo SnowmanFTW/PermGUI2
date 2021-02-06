@@ -11,7 +11,8 @@ items:
     name: "&b%target%"
     lore:
       - ""
-      - "&7Click to select this premade"
+      - "&7Left click to select this premade"
+      - "&7Right click to overwrite every permission"
     actions:
       - "[PREMADE] ADD"
       - "[CLOSE]"

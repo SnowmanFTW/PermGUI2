@@ -1,5 +1,3 @@
-Prefix: "&bPermGUI &f- "
-
 #Prefix section
 PrefixChat: "&bChat your desired prefix. Type &f'cancel' &bto cancel. Type &f'none' &bto remove."
 PrefixSet: "&bPrefix &f%prefix% &bhas been added!"
@@ -16,10 +14,20 @@ PremadeSet: "&bPremade &f%premade% &bhas been added!"
 NoPremade: "&bPremade &f%premade% &bdoesn't exist"
 
 #Group section
-GroupChat: "&bChat your desired group name. Type &f'cancel' to cancel."
-GroupCreate: "&bGroup 7f%group% &bcreated."
+GroupChat: "&bChat your desired group name. Type &f'cancel'&b to cancel."
+GroupCreate: "&bGroup &f%group% &bcreated."
+GroupAdd: "&bGroup &f%group% &badded to player &f%player%"
+GroupChange: "&bGroup &f%group% &bchanged for player &f%player%"
 
 #General
 Cancel: "&bOperation has been cancelled!"
 NoPerm: "&bNo permission to execute that command."
 NoConsole: "&bThis command can't be used in the console."
+Help:
+  - "&f&m-------------&r &bPermGUI v&f2.0.0 &f&m-------------"
+  - "&f/permgui2 - &bOpens the main GUI"
+  - "&fAliases: &b/perm2, /perms2"
+  - "&f/permgui2 reload - &bReloads the plugin"
+  - "&f/permgui2 help - &bDisplays this"
+Reload: "&bConfig and messages have been reloaded!"
+Prefix: "&bPermGUI2 &f- "

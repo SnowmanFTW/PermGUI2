@@ -3,6 +3,7 @@ package me.snowman.permgui2.events;
 import me.snowman.permgui2.managers.*;
 import me.snowman.permgui2.objects.Menu;
 import me.snowman.permgui2.objects.MenuItem;
+import me.snowman.permgui2.objects.Premade;
 import me.snowman.permgui2.objects.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,13 +23,15 @@ public class GUIListeners implements Listener {
     private final ItemManager itemManager;
     private final PermsManager permsManager;
     private final UserManager userManager;
+    private final PremadeManager premadeManager;
     private final MessageManager messageManager;
 
-    public GUIListeners(MenuManager menuManager, ItemManager itemManager, PermsManager permsManager, UserManager userManager, MessageManager messageManager) {
+    public GUIListeners(MenuManager menuManager, ItemManager itemManager, PermsManager permsManager, UserManager userManager, PremadeManager premadeManager, MessageManager messageManager) {
         this.menuManager = menuManager;
         this.permsManager = permsManager;
         this.itemManager = itemManager;
         this.userManager = userManager;
+        this.premadeManager = premadeManager;
         this.messageManager = messageManager;
     }
 
@@ -83,15 +86,21 @@ public class GUIListeners implements Listener {
                         break;
                     }
                     break;
+                case "[CREATEGROUP]":
+                    user.setChat(action);
+                    player.sendMessage(messageManager.getMessages("GroupChat"));
+                    break;
                 case "[CHANGEGROUP]":
                     for (String group : permsManager.getPerms().getPlayerGroups(target)) {
                         permsManager.getPerms().playerRemoveGroup(null, target, group);
                     }
                     permsManager.getPerms().playerAddGroup(null, target, itemName);
+                    user.getPlayer().sendMessage(messageManager.getMessages("GroupChange").replace("%group%", itemName).replace("%player%", target.getName()));
                     user.getPlayer().closeInventory();
                     break;
                 case "[ADDGROUP]":
                     permsManager.getPerms().playerAddGroup(null, target, itemName);
+                    user.getPlayer().sendMessage(messageManager.getMessages("GroupAdd").replace("%group%", itemName).replace("%player%", target.getName()));
                     user.getPlayer().closeInventory();
                     break;
                 case "[PREFIX]":
@@ -102,14 +111,25 @@ public class GUIListeners implements Listener {
                     else player.sendMessage(messageManager.getMessages("SuffixChat"));
                     break;
                 case "[PREMADE]":
-                    user.setChat(action);
-                    user.setTarget(targetString);
-                    player.sendMessage(messageManager.getMessages("PremadeChat"));
+                    if(arguments.equalsIgnoreCase("create")) {
+                        user.setChat(action);
+                        user.setTarget(targetString);
+                        player.sendMessage(messageManager.getMessages("PremadeChat"));
+                    }else{
+                        Premade premade = premadeManager.getPremade(itemName);
+                        if(event.getClick().isLeftClick()) {
+                            premadeManager.loadPremade(premade, user, false);
+                        }else if(event.getClick().isRightClick()){
+                            premadeManager.loadPremade(premade, user, true);
+                        }
+                        player.sendMessage(messageManager.getMessages("PremadeSet").replace("%premade%", itemName));
+                    }
                     break;
                 case "[CLOSE]":
                     user.setForceClosed(true);
                     user.getPlayer().closeInventory();
                     user.setMenu(null);
+                    break;
             }
         }
     }
