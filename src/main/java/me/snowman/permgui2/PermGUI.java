@@ -1,5 +1,6 @@
 package me.snowman.permgui2;
 
+import me.snowman.permgui2.api.PermGUIAPI;
 import me.snowman.permgui2.bstats.Metrics;
 import me.snowman.permgui2.commands.Perms;
 import me.snowman.permgui2.events.ChatListeners;
@@ -11,11 +12,12 @@ import java.util.concurrent.Callable;
 
 public class PermGUI extends JavaPlugin {
     private final int id = 5646;
+    public PermsManager permsManager;
 
     @Override
     public void onEnable() {
         final FileManager fileManager = new FileManager(this);
-        final PermsManager permsManager = new PermsManager(this);
+        permsManager = new PermsManager(this);
         final MessageManager messageManager = new MessageManager(this, fileManager);
         final UserManager userManager = new UserManager();
         final PremadeManager premadeManager = new PremadeManager(this, fileManager, permsManager, messageManager);
@@ -40,11 +42,12 @@ public class PermGUI extends JavaPlugin {
     }
 
     public void addCharts(Metrics metrics, PermsManager permsManager){
-        metrics.addCustomChart(new Metrics.SimplePie("permissionPlugin", new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                return permsManager.getPerms().getName();
-            }
-        }));
+        metrics.addCustomChart(new Metrics.SimplePie("permissionPlugin", () -> permsManager.getPerms().getName()));
     }
+
+    public static PermGUIAPI getAPI(){
+        return new PermGUIAPI();
+    }
+
+
 }
