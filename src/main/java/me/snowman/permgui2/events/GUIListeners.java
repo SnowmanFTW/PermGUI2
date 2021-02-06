@@ -86,15 +86,21 @@ public class GUIListeners implements Listener {
                         break;
                     }
                     break;
+                case "[CREATEGROUP]":
+                    user.setChat(action);
+                    player.sendMessage(messageManager.getMessages("GroupChat"));
+                    break;
                 case "[CHANGEGROUP]":
                     for (String group : permsManager.getPerms().getPlayerGroups(target)) {
                         permsManager.getPerms().playerRemoveGroup(null, target, group);
                     }
                     permsManager.getPerms().playerAddGroup(null, target, itemName);
+                    user.getPlayer().sendMessage(messageManager.getMessages("GroupChange").replace("%group%", itemName).replace("%player%", target.getName()));
                     user.getPlayer().closeInventory();
                     break;
                 case "[ADDGROUP]":
                     permsManager.getPerms().playerAddGroup(null, target, itemName);
+                    user.getPlayer().sendMessage(messageManager.getMessages("GroupAdd").replace("%group%", itemName).replace("%player%", target.getName()));
                     user.getPlayer().closeInventory();
                     break;
                 case "[PREFIX]":

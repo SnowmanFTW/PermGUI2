@@ -20,6 +20,8 @@ public class MessageManager {
         return fileManager.getMessages().getString("Prefix") + " ";
     }
 
+    public List<String> getHelp(){ return fileManager.getMessages().getStringList("Help");}
+
     public String color(String s){
         return ChatColor.translateAlternateColorCodes('&', s);
     }

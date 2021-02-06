@@ -12,6 +12,17 @@ items:
     lore: [ ]
     actions:
       - "[OPEN] group_portal.yml"
+  "creategroup":
+    material: DIAMOND
+    amount: 1
+    slot: 49
+    name: "&bCreate group"
+    lore:
+      - ""
+      - "&7Click to create a new group"
+    actions:
+      - "[CREATEGROUP]"
+      - "[CLOSE]"
   "previouspage":
     material: PLAYER_HEAD
     slot: 45
