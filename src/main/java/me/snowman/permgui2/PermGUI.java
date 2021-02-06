@@ -1,12 +1,16 @@
 package me.snowman.permgui2;
 
+import me.snowman.permgui2.bstats.Metrics;
 import me.snowman.permgui2.commands.Perms;
 import me.snowman.permgui2.events.ChatListeners;
 import me.snowman.permgui2.events.GUIListeners;
 import me.snowman.permgui2.managers.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.concurrent.Callable;
+
 public class PermGUI extends JavaPlugin {
+    private final int id = 5646;
 
     @Override
     public void onEnable() {
@@ -26,10 +30,21 @@ public class PermGUI extends JavaPlugin {
         fileManager.setupConfig();
         fileManager.setupMessages();
         fileManager.setupGUIs();
+        Metrics metrics = new Metrics(this, id);
+        addCharts(metrics, permsManager);
     }
 
     @Override
     public void onDisable() {
 
+    }
+
+    public void addCharts(Metrics metrics, PermsManager permsManager){
+        metrics.addCustomChart(new Metrics.SimplePie("permissionPlugin", new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return permsManager.getPerms().getName();
+            }
+        }));
     }
 }

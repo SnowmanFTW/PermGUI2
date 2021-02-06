@@ -1,7 +1,8 @@
 plugins {
     id 'java'
 }
-group 'me.snowman'
+String packagePath = 'me.snowman.permgui2'
+group packagePath
 version '2.0.0'
 
 repositories {
@@ -17,7 +18,6 @@ dependencies {
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
     compileOnly 'net.luckperms:api:5.2'
 }
-
 test {
     useJUnitPlatform()
 }
