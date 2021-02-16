@@ -29,7 +29,7 @@ items:
       - "[CLOSE]"
   "back":
     material: PLAYER_HEAD
-    slot: 45
+    slot: 0
     amount: 1
     name: "&bBack"
     lore:
