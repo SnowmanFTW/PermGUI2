@@ -27,3 +27,14 @@ items:
     actions:
       - "[SUFFIX] %target%"
       - "[CLOSE]"
+  "back":
+    material: PLAYER_HEAD
+    slot: 45
+    amount: 1
+    name: "&bBack"
+    lore:
+      - ""
+      - "&7Click to go"
+      - "&7To the previous menu"
+    actions:
+      - "[OPEN] portal.yml"

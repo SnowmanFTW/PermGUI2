@@ -49,6 +49,7 @@ public class PremadeManager {
     public Set<String> getPremades() {
         Set<String> premades = new HashSet<>();
         File premadesFolder = new File(permGUI.getDataFolder(), "premades");
+        if(premadesFolder.listFiles() == null) return null;
         for (File premadeFile : premadesFolder.listFiles()) {
             premades.add(premadeFile.getName());
         }

@@ -173,6 +173,7 @@ public class Menu {
             case "perms":
                 return new LinkedList<>(getServer().getPluginManager().getPlugin(user.getPlugin()).getDescription().getPermissions().stream().map(Permission::getName).collect(Collectors.toList()));
             case "premades":
+                if(premadeManager.getPremades() == null) return new LinkedList<>();
                 return new LinkedList<>(premadeManager.getPremades());
         }
         return null;
