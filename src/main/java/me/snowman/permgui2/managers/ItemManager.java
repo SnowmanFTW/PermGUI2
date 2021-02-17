@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -39,6 +40,7 @@ public class ItemManager {
                         .setLore(messageManager.color(itemsSection.getStringList(item + ".lore")))
                         .setActions(itemsSection.getStringList(item + ".actions"))
                         .setSlot(itemsSection.getInt(item + ".slot"))
+                        .setSkullOwner(itemsSection.getString(item + ".skin"))
                         .build()));
         return items;
     }
@@ -46,6 +48,8 @@ public class ItemManager {
     public MenuItem getItem(Menu menu, ItemStack itemStack, String target) {
         for (MenuItem item : menu.getItems()) {
             item.setName(item.getName().replace("%target%", target));
+            System.out.println(item.getItem().getItemMeta());
+            System.out.println(itemStack.getItemMeta());
             if (item.getItem().isSimilar(itemStack)) return item;
         }
         return null;

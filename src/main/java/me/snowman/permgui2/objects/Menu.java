@@ -85,6 +85,7 @@ public class Menu {
                         if (item.getSlot() == 0) {
                             String name = item.getName();
                             item.setName(item.getName().replace("%target%", target));
+                            if(item.getSkullOwner() != null) item.setSkullOwner(item.getSkullOwner().replace("%target%", target));
                             if (getListType().equals("perms")) {
                                 if (Bukkit.getServer().getPlayer(user.getTarget()) != null) {
                                     Player player = Bukkit.getServer().getPlayer(user.getTarget());
