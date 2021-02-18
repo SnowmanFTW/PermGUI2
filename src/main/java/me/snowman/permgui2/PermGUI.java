@@ -15,16 +15,13 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.concurrent.Callable;
 
 public class PermGUI extends JavaPlugin {
-    private final int id = 5646;
-    public PermsManager permsManager;
 
     @Override
     public void onEnable() {
         final FileManager fileManager = new FileManager(this);
-        permsManager = new PermsManager(this);
+        final PermsManager permsManager = new PermsManager(this);
         final MessageManager messageManager = new MessageManager(this, fileManager);
         final UserManager userManager = new UserManager();
         final PremadeManager premadeManager = new PremadeManager(this, fileManager, permsManager, messageManager);
@@ -42,6 +39,7 @@ public class PermGUI extends JavaPlugin {
         Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded all configs."));
         fileManager.setupGUIs();
         Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded all menus."));
+        int id = 5646;
         Metrics metrics = new Metrics(this, id);
         addCharts(metrics, permsManager);
         updatePlugin();
@@ -76,7 +74,8 @@ public class PermGUI extends JavaPlugin {
 
                     // Check if it's outdated or not
                     if (!installed.equals(latest)) {
-                        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bYour plugin version (&f" + installed + "&b) is not the latest one (&f" + latest + "&b)\n&bYou can download it here: &fhttps://www.spigotmc.org/resources/70350/"));
+                        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bYour plugin version (&f" + installed + "&b) is not the latest one (&f" + latest + "&b)"));
+                        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bYou can download it here: &fhttps://www.spigotmc.org/resources/70350/"));
                     } else {
                         Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bPlugin version is up-to-date (&f" + installed + "&b)."));
                     }

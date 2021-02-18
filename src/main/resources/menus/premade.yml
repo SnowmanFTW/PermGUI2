@@ -32,6 +32,7 @@ items:
     material: PLAYER_HEAD
     slot: 45
     amount: 1
+    skin: "MHF_ArrowLeft"
     name: "&bPrevious Page"
     lore:
       - ""
@@ -43,6 +44,7 @@ items:
     material: PLAYER_HEAD
     slot: 53
     amount: 1
+    skin: "MHF_ArrowRight"
     name: "&bNext Page"
     lore:
       - ""
@@ -54,6 +56,7 @@ items:
     material: PLAYER_HEAD
     slot: 45
     amount: 1
+    skin: "MHF_ArrowLeft"
     name: "&bBack"
     lore:
       - ""

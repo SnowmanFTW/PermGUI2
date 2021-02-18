@@ -30,6 +30,7 @@ items:
     material: PLAYER_HEAD
     slot: 0
     amount: 1
+    skin: "MHF_ArrowLeft"
     name: "&bBack"
     lore:
       - ""
