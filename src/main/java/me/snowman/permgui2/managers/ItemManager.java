@@ -48,8 +48,6 @@ public class ItemManager {
     public MenuItem getItem(Menu menu, ItemStack itemStack, String target) {
         for (MenuItem item : menu.getItems()) {
             item.setName(item.getName().replace("%target%", target));
-            System.out.println(item.getItem().getItemMeta().getLore());
-            System.out.println(itemStack.getItemMeta().getLore());
             if(item.getItem().getType().equals(Material.PLAYER_HEAD)){
                 List<String> itemLore = itemStack.getItemMeta().getLore();
                 if (itemStack.getItemMeta().getLore() == null) itemLore = new ArrayList<>();
