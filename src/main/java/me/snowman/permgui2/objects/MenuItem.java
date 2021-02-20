@@ -58,10 +58,21 @@ public class MenuItem {
 
     @Deprecated
     public MenuItem setSkullOwner(String owner){
-        SkullMeta meta = (SkullMeta) item.getItemMeta();
-        meta.setOwner(owner);
-        item.setItemMeta(meta);
+        try {
+            SkullMeta meta = (SkullMeta) item.getItemMeta();
+            meta.setOwner(owner);
+            item.setItemMeta(meta);
+        }catch (ClassCastException ignored){}
         return this;
+    }
+
+    @Deprecated
+    public String getSkullOwner(){
+        try {
+            SkullMeta meta = (SkullMeta) item.getItemMeta();
+            return meta.getOwner();
+        }catch (ClassCastException ignored){}
+        return null;
     }
 
     public MenuItem addEnchant(Enchantment ench, int level){

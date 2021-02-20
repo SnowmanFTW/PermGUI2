@@ -7,9 +7,13 @@ import me.snowman.permgui2.managers.UserManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class Perms implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Perms implements CommandExecutor, TabCompleter {
     private final MenuManager menuManager;
     private final UserManager userManager;
     private final MessageManager messageManager;
@@ -60,5 +64,25 @@ public class Perms implements CommandExecutor {
                 return true;
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> tabComplete = new ArrayList<>();
+        if(command.getName().equalsIgnoreCase("perms2")){
+            if(args.length == 0){
+            }
+            if(args.length == 1){
+                if(args[0].contains("r")){
+                    tabComplete.add("reload");
+                }else if(args[0].contains("h")){
+                    tabComplete.add("help");
+                }else{
+                    tabComplete.add("reload");
+                    tabComplete.add("help");
+                }
+            }
+        }
+        return tabComplete;
     }
 }

@@ -48,3 +48,15 @@ items:
       - "&7of the player"
     actions:
       - "[OPEN] plugins.yml"
+  "back":
+    material: PLAYER_HEAD
+    slot: 0
+    amount: 1
+    skin: "MHF_ArrowLeft"
+    name: "&bBack"
+    lore:
+      - ""
+      - "&7Click to go"
+      - "&7To the previous menu"
+    actions:
+      - "[OPEN] players.yml"

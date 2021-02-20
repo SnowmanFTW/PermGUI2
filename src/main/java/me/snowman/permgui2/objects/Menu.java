@@ -85,6 +85,7 @@ public class Menu {
                         if (item.getSlot() == 0) {
                             String name = item.getName();
                             item.setName(item.getName().replace("%target%", target));
+                            if(item.getSkullOwner() != null) item.setSkullOwner(item.getSkullOwner().replace("%target%", target));
                             if (getListType().equals("perms")) {
                                 if (Bukkit.getServer().getPlayer(user.getTarget()) != null) {
                                     Player player = Bukkit.getServer().getPlayer(user.getTarget());
@@ -173,6 +174,7 @@ public class Menu {
             case "perms":
                 return new LinkedList<>(getServer().getPluginManager().getPlugin(user.getPlugin()).getDescription().getPermissions().stream().map(Permission::getName).collect(Collectors.toList()));
             case "premades":
+                if(premadeManager.getPremades() == null) return new LinkedList<>();
                 return new LinkedList<>(premadeManager.getPremades());
         }
         return null;
