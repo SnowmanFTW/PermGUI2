@@ -10,8 +10,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Perms implements CommandExecutor, TabCompleter {
     private final MenuManager menuManager;
@@ -62,6 +68,14 @@ public class Perms implements CommandExecutor, TabCompleter {
             case "convert":
                 if(fileManager.convertOld(player)) player.sendMessage(messageManager.color(messageManager.getPrefix() + "&bFinished converting messages"));
                 return true;
+            case "test":
+                try {
+                    HttpsURLConnection connection = (HttpsURLConnection) new URL("https://essinfo.xeya.me/permissions.html").openConnection();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    System.out.println(bufferedReader.lines().collect(Collectors.toList()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
         }
         return true;
     }

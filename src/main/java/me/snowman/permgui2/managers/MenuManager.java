@@ -5,7 +5,6 @@ import me.snowman.permgui2.objects.Menu;
 import me.snowman.permgui2.objects.User;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 
 import java.io.File;

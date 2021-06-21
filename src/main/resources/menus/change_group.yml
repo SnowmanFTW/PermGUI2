@@ -31,7 +31,7 @@ items:
     material: PLAYER_HEAD
     slot: 53
     amount: 1
-      skin: "MHF_ArrowRight"
+    skin: "MHF_ArrowRight"
     name: "&bNext Page"
     lore:
       - ""

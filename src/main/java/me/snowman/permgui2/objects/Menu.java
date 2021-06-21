@@ -30,7 +30,7 @@ public class Menu {
     private Inventory inventory;
     private int page = 1;
 
-    public Menu() {
+    public Menu()  {
     }
 
     public Menu setTitle(String title) {
@@ -61,6 +61,7 @@ public class Menu {
     public Menu build() {
         this.inventory = Bukkit.createInventory(null, getSize(), getTitle());
         for (MenuItem item : getItems()) {
+            if(item.getSlot() == -1) continue;
             getInventory().setItem(item.getSlot(), item.getItem());
         }
         return this;
@@ -82,7 +83,7 @@ public class Menu {
                 if (index < size) {
                     String target = targets.get(index);
                     for (MenuItem item : getItems()) {
-                        if (item.getSlot() == 0) {
+                        if (item.getSlot() == -1) {
                             String name = item.getName();
                             item.setName(item.getName().replace("%target%", target));
                             if(item.getSkullOwner() != null) item.setSkullOwner(item.getSkullOwner().replace("%target%", target));
@@ -106,6 +107,7 @@ public class Menu {
             }
         }
         for (MenuItem item : getItems()) {
+            if(item.getSlot() == -1) continue;
             if (item.getSlot() != 0) {
                 if (item.getActions().contains("[NEXTPAGE]") || item.getActions().contains("[PREVIOUSPAGE]")) {
                     if (size > 45 && page == 1) {

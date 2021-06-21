@@ -160,8 +160,7 @@ public class FileManager {
         File oldFile = new File(oldFolder + "/messages.yml");
         YamlConfiguration oldMessages = YamlConfiguration.loadConfiguration(oldFile);
 
-        getMessages().set("Prefix", oldMessages.getString("Prefix"));
-        getMessages().set("NoConsole", oldMessages.getString("OldConsole"));
+        getMessages().set("Prefix", oldMessages.getString("Prefix"));   getMessages().set("NoConsole", oldMessages.getString("OldConsole"));
         getMessages().set("Help", oldMessages.getStringList("Help"));
         getMessages().set("Reload", oldMessages.getString("Reload"));
         getMessages().set("GroupChat", oldMessages.getString("ChatCreateGroup"));

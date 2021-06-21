@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -92,6 +93,11 @@ public class MenuItem {
         meta.setLore(Arrays.asList(lore));
         item.setItemMeta(meta);
         return this;
+    }
+
+    public List<String> getLore(){
+        if(item.getItemMeta() == null) return new ArrayList<>();
+        return item.getItemMeta().getLore();
     }
 
     public MenuItem setLore(List<String> lore) {
