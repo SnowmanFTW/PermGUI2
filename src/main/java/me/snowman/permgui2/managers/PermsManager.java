@@ -6,6 +6,7 @@ import net.luckperms.api.LuckPermsProvider;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class PermsManager {
@@ -18,13 +19,13 @@ public class PermsManager {
 
     public boolean setupPermissions() {
         if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
-            Bukkit.getServer().getConsoleSender().sendMessage("&cVault &4not found. Install &cVault &4then try again.");
+            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cVault &4not found. Install &cVault &4then try again."));
             Bukkit.getServer().getPluginManager().disablePlugin(permGUI);
             return false;
         }
         RegisteredServiceProvider<Permission> rsp = Bukkit.getServer().getServicesManager().getRegistration(Permission.class);
         if(rsp == null){
-            Bukkit.getServer().getConsoleSender().sendMessage("&cPermission plugin &4not found. Install a &cpermission plugin &4then try again.");
+            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cPermission plugin &4not found. Install a &cpermission plugin &4then try again."));
             Bukkit.getServer().getPluginManager().disablePlugin(permGUI);
             return false;
         }
@@ -34,14 +35,13 @@ public class PermsManager {
 
     public boolean setupChat() {
         if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
-            Bukkit.getServer().getConsoleSender().sendMessage("&cVault &4not found. Install &cVault &4then try again.");
+            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cVault &4not found. Install &cVault &4then try again."));
             Bukkit.getServer().getPluginManager().disablePlugin(permGUI);
             return false;
         }
         RegisteredServiceProvider<Chat> rsp = Bukkit.getServer().getServicesManager().getRegistration(Chat.class);
         if(rsp == null){
-            Bukkit.getServer().getConsoleSender().sendMessage("&cChat plugin &4not found. Install a &cchat plugin &4then try again.");
-            Bukkit.getServer().getPluginManager().disablePlugin(permGUI);
+            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cChat plugin &4not found. Install a &cchat plugin &4if you want meta to work."));
             return false;
         }
         chat = rsp.getProvider();

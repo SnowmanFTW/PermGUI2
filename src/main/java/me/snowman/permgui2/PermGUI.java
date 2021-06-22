@@ -32,7 +32,7 @@ public class PermGUI extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ChatListeners(messageManager, permsManager, userManager, premadeManager), this);
 
         permsManager.setupChat();
-        permsManager.setupPermissions();
+        if(!permsManager.setupPermissions()) return;
         Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded Vault."));
         fileManager.setupConfig();
         fileManager.setupMessages();
