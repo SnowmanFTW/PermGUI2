@@ -1,11 +1,9 @@
 package me.snowman.permgui2.events;
 
-import me.snowman.permgui2.managers.MessageManager;
-import me.snowman.permgui2.managers.PermsManager;
-import me.snowman.permgui2.managers.PremadeManager;
-import me.snowman.permgui2.managers.UserManager;
+import me.snowman.permgui2.managers.*;
 import me.snowman.permgui2.objects.Premade;
 import me.snowman.permgui2.objects.User;
+import net.dv8tion.jda.api.exceptions.RateLimitedException;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -13,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class ChatListeners implements Listener {
@@ -20,12 +19,14 @@ public class ChatListeners implements Listener {
     private final PermsManager permsManager;
     private final UserManager userManager;
     private final PremadeManager premadeManager;
+    private final BotManager botManager;
 
-    public ChatListeners(MessageManager messageManager, PermsManager permsManager, UserManager userManager, PremadeManager premadeManager) {
+    public ChatListeners(MessageManager messageManager, PermsManager permsManager, UserManager userManager, PremadeManager premadeManager, BotManager botManager) {
         this.messageManager = messageManager;
         this.permsManager = permsManager;
         this.userManager = userManager;
         this.premadeManager = premadeManager;
+        this.botManager = botManager;
     }
 
     @EventHandler
@@ -88,6 +89,7 @@ public class ChatListeners implements Listener {
             if(!permsManager.isLuckPerms()) return;
             permsManager.getLuckPerms().getGroupManager().createAndLoadGroup(message);
             player.sendMessage(messageManager.getMessages("GroupCreate").replace("%group%", message));
+            botManager.createRole(message);
         }
 
         user.removeChat();
