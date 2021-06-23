@@ -6,11 +6,6 @@ String packagePath = 'me.snowman.permgui2'
 group packagePath
 version '2.1.0'
 
-libsDirName = '/home/snowman/Desktop/Server/plugins'
-jar {
-    archiveName 'PermGUI2.jar'
-}
-
 repositories {
     mavenCentral()
 
