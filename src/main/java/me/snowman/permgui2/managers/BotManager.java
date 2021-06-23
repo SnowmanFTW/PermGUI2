@@ -10,7 +10,7 @@ import javax.security.auth.login.LoginException;
 public class BotManager {
     private final PermGUI permGUI;
 
-    private final JDABuilder builder = JDABuilder.createDefault("ODU2OTgxNDA5MzE4NTY3OTU2.YNI8IQ.C4jW56prfzIsciQzFG6K5Ah-eQ8");
+    private JDABuilder builder;
     private JDA bot;
 
     public BotManager(PermGUI permGUI){
@@ -42,6 +42,10 @@ public class BotManager {
         Bukkit.getScheduler().runTaskAsynchronously(permGUI, () -> {
             bot.getGuilds().get(0).createRole().setName(name).submit(true);
         });
+    }
+
+    public void setToken(String token){
+        builder = JDABuilder.createDefault(token);
     }
 
     public JDA getBot() {
