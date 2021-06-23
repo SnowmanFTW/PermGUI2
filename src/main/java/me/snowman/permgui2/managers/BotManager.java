@@ -4,21 +4,18 @@ import me.snowman.permgui2.PermGUI;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 
 import javax.security.auth.login.LoginException;
-import java.awt.*;
 
 public class BotManager {
     private final PermGUI permGUI;
 
+    private final JDABuilder builder = JDABuilder.createDefault("ODU2OTgxNDA5MzE4NTY3OTU2.YNI8IQ.C4jW56prfzIsciQzFG6K5Ah-eQ8");
+    private JDA bot;
+
     public BotManager(PermGUI permGUI){
         this.permGUI = permGUI;
     }
-
-    private JDABuilder builder = null;
-    private JDA bot;
-
 
     public void startBot(){
         Bukkit.getScheduler().runTaskAsynchronously(permGUI, () -> {
@@ -26,9 +23,7 @@ public class BotManager {
                 bot = builder.build();
                 bot.awaitReady();
             } catch (LoginException | InterruptedException e) {
-                Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bModify &fconfig.yml &band add a bot token for the bot to work!"));
-                Bukkit.getLogger().severe("PermGUI2 - " + e.getMessage());
-                return;
+                e.printStackTrace();
             }
             Bukkit.getServer().getConsoleSender().sendMessage("Bot started");
         });
@@ -47,10 +42,6 @@ public class BotManager {
         Bukkit.getScheduler().runTaskAsynchronously(permGUI, () -> {
             bot.getGuilds().get(0).createRole().setName(name).submit(true);
         });
-    }
-
-    public void setToken(String token){
-        builder = JDABuilder.createDefault(token);
     }
 
     public JDA getBot() {
