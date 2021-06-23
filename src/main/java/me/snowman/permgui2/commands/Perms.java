@@ -1,9 +1,6 @@
 package me.snowman.permgui2.commands;
 
-import me.snowman.permgui2.managers.FileManager;
-import me.snowman.permgui2.managers.MenuManager;
-import me.snowman.permgui2.managers.MessageManager;
-import me.snowman.permgui2.managers.UserManager;
+import me.snowman.permgui2.managers.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class Perms implements CommandExecutor, TabCompleter {
@@ -24,12 +22,14 @@ public class Perms implements CommandExecutor, TabCompleter {
     private final UserManager userManager;
     private final MessageManager messageManager;
     private final FileManager fileManager;
+    private final BotManager botManager;
 
-    public Perms(MenuManager menuManager, UserManager userManager, MessageManager messageManager, FileManager fileManager) {
+    public Perms(MenuManager menuManager, UserManager userManager, MessageManager messageManager, FileManager fileManager, BotManager botManager) {
         this.menuManager = menuManager;
         this.userManager = userManager;
         this.messageManager = messageManager;
         this.fileManager = fileManager;
+        this.botManager = botManager;
     }
 
     @Override
@@ -39,10 +39,6 @@ public class Perms implements CommandExecutor, TabCompleter {
             return true;
         }
         Player player = (Player) sender;
-        if (!player.hasPermission("permgui.use") || !player.hasPermission("permgui2.use")){
-            player.sendMessage(messageManager.getMessages("NoPerm"));
-            return true;
-        }
         if(args.length == 0) {
             menuManager.open(userManager.getUser(player), menuManager.getMainMenu());
             return true;
@@ -52,6 +48,19 @@ public class Perms implements CommandExecutor, TabCompleter {
             for(String help: messageManager.getHelp()){
                 player.sendMessage(messageManager.color(help));
             }
+            return true;
+        }
+        if(!player.hasPermission("permgui.link")){
+            player.sendMessage(messageManager.getMessages("NoPerm"));
+            return true;
+        }
+        if(arg.equalsIgnoreCase("link")){
+            String code = UUID.randomUUID().toString().substring(0, 10).replace("-", "");
+            botManager.getLinkCodes().put(player.getUniqueId(), code);
+            player.sendMessage(messageManager.getMessages("DMBot").replace("%code%", code));
+        }
+        if (!player.hasPermission("permgui.use") || !player.hasPermission("permgui2.use")){
+            player.sendMessage(messageManager.getMessages("NoPerm"));
             return true;
         }
         switch (arg){
@@ -68,14 +77,6 @@ public class Perms implements CommandExecutor, TabCompleter {
             case "convert":
                 if(fileManager.convertOld(player)) player.sendMessage(messageManager.color(messageManager.getPrefix() + "&bFinished converting messages"));
                 return true;
-            case "test":
-                try {
-                    HttpsURLConnection connection = (HttpsURLConnection) new URL("https://essinfo.xeya.me/permissions.html").openConnection();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    System.out.println(bufferedReader.lines().collect(Collectors.toList()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
         }
         return true;
     }

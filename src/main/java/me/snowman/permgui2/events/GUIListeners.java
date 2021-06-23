@@ -97,6 +97,7 @@ public class GUIListeners implements Listener {
                     permsManager.getPerms().playerAddGroup(null, target, itemName);
                     user.getPlayer().sendMessage(messageManager.getMessages("GroupChange").replace("%group%", itemName).replace("%player%", target.getName()));
                     user.getPlayer().closeInventory();
+
                     break;
                 case "[ADDGROUP]":
                     permsManager.getPerms().playerAddGroup(null, target, itemName);

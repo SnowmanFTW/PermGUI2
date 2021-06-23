@@ -1,10 +1,12 @@
 package me.snowman.permgui2;
 
+import me.snowman.permgui2.Bot.Listeners;
 import me.snowman.permgui2.api.PermGUIAPI;
 import me.snowman.permgui2.bstats.Metrics;
 import me.snowman.permgui2.commands.Perms;
 import me.snowman.permgui2.events.ChatListeners;
 import me.snowman.permgui2.events.GUIListeners;
+import me.snowman.permgui2.events.JoinListener;
 import me.snowman.permgui2.managers.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -27,12 +29,15 @@ public class PermGUI extends JavaPlugin {
     final PremadeManager premadeManager = new PremadeManager(this, fileManager, permsManager, messageManager);
     final ItemManager itemManager = new ItemManager(this, messageManager);
     final MenuManager menuManager = new MenuManager(this, itemManager, messageManager, permsManager, premadeManager);
-    final BotManager botManager = new BotManager(this);
+    final BotManager botManager = new BotManager(this, fileManager);
     @Override
     public void onEnable() {
-        getCommand("perms2").setExecutor(new Perms(menuManager, userManager, messageManager, fileManager));
+        getCommand("perms2").setExecutor(new Perms(menuManager, userManager, messageManager, fileManager, botManager));
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded all commands."));
         getServer().getPluginManager().registerEvents(new GUIListeners(menuManager, itemManager, permsManager, userManager, premadeManager, messageManager), this);
         getServer().getPluginManager().registerEvents(new ChatListeners(messageManager, permsManager, userManager, premadeManager, botManager), this);
+        getServer().getPluginManager().registerEvents(new JoinListener(fileManager), this);
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded all listeners."));
 
         permsManager.setupChat();
         if(!permsManager.setupPermissions()) return;
@@ -47,6 +52,7 @@ public class PermGUI extends JavaPlugin {
         int id = 5646;
         Metrics metrics = new Metrics(this, id);
         addCharts(metrics, permsManager);
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded metrics."));
         updatePlugin();
         Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bPlugin loaded. v&f" + getDescription().getVersion()));
     }
