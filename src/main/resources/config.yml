@@ -1,1 +1,3 @@
 MainMenu: "portal.yml"
+Discord:
+  Bot-Token: "TOKEN"

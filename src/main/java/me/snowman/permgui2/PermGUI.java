@@ -42,6 +42,7 @@ public class PermGUI extends JavaPlugin {
         Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded all configs."));
         fileManager.setupGUIs();
         Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded all menus."));
+        botManager.setToken(getConfig().getString("Discord.Bot-Token"));
         botManager.startBot();
         int id = 5646;
         Metrics metrics = new Metrics(this, id);
