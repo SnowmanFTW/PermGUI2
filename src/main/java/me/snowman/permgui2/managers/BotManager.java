@@ -1,12 +1,14 @@
 package me.snowman.permgui2.managers;
 
-import me.snowman.permgui2.Bot.Listeners;
+import me.snowman.permgui2.bot.Listeners;
 import me.snowman.permgui2.PermGUI;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 
 import javax.security.auth.login.LoginException;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -57,6 +59,11 @@ public class BotManager {
     public void setRole(String role){
         Bukkit.getScheduler().runTaskAsynchronously(permGUI, () -> {
         });
+    }
+
+    public void setColor(String role, String prefix){
+        ChatColor last = ChatColor.getByChar(prefix.charAt(prefix.lastIndexOf(ChatColor.COLOR_CHAR) + 1));
+        bot.getGuilds().get(0).getRolesByName(role, false).get(0).getManager().setColor(last.getColor()).queue();
     }
 
     public void setToken(String token){

@@ -1,6 +1,5 @@
 package me.snowman.permgui2;
 
-import me.snowman.permgui2.Bot.Listeners;
 import me.snowman.permgui2.api.PermGUIAPI;
 import me.snowman.permgui2.bstats.Metrics;
 import me.snowman.permgui2.commands.Perms;
@@ -16,7 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.security.auth.login.LoginException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;

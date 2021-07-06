@@ -1,4 +1,4 @@
-package me.snowman.permgui2.Bot;
+package me.snowman.permgui2.bot;
 
 import me.snowman.permgui2.managers.BotManager;
 import me.snowman.permgui2.managers.FileManager;

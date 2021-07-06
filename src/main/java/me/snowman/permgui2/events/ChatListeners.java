@@ -60,6 +60,7 @@ public class ChatListeners implements Listener {
                     return;
                 }
                 permsManager.getChat().setGroupPrefix((World) null, targetString, message);
+                botManager.setColor(targetString, message);
             }
             player.sendMessage(messageManager.getMessages("PrefixSet").replace("%prefix%", message));
         } else if (action.contains("suffix")) {
