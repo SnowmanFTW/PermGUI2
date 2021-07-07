@@ -4,6 +4,11 @@ import me.snowman.permgui2.bot.Listeners;
 import me.snowman.permgui2.PermGUI;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.exceptions.RateLimitedException;
+import net.dv8tion.jda.internal.entities.UserById;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 
@@ -12,10 +17,12 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class BotManager {
     private final PermGUI permGUI;
     private final FileManager fileManager;
+    private final UserManager userManager;
 
     private JDABuilder builder;
     private JDA bot;
@@ -23,16 +30,17 @@ public class BotManager {
     private final Map<UUID, String> linkCodes = new HashMap<>();
     private final Map<UUID, String> linkIDs = new HashMap<>();
 
-    public BotManager(PermGUI permGUI, FileManager fileManager){
+    public BotManager(PermGUI permGUI, FileManager fileManager, UserManager userManager){
         this.permGUI = permGUI;
         this.fileManager = fileManager;
+        this.userManager = userManager;
     }
 
     public void startBot(){
         Bukkit.getScheduler().runTaskAsynchronously(permGUI, () -> {
             Bukkit.getServer().getConsoleSender().sendMessage("Bot starting...");
             try {
-                bot = builder.addEventListeners(new Listeners(this, fileManager)).build();
+                bot = builder.addEventListeners(new Listeners(this, fileManager, userManager, permGUI)).build();
                 bot.awaitReady();
             } catch (LoginException | InterruptedException e) {
                 e.printStackTrace();
@@ -52,18 +60,28 @@ public class BotManager {
 
     public void createRole(String name){
         Bukkit.getScheduler().runTaskAsynchronously(permGUI, () -> {
-            bot.getGuilds().get(0).createRole().setName(name).submit(true);
+            getGuild().createRole().setName(name).submit(true);
         });
     }
 
-    public void setRole(String role){
+    public void setRole(String role, me.snowman.permgui2.objects.User user){
         Bukkit.getScheduler().runTaskAsynchronously(permGUI, () -> {
+            if(user.getDiscordID() == null) return;
+            Member discordUser = null;
+            try {
+                discordUser = getGuild().retrieveMemberById(user.getDiscordID()).complete(true);
+            } catch (RateLimitedException e) {
+                e.printStackTrace();
+            }
+            if(discordUser == null) return;
+            if(getGuild().getRolesByName(role, true).size() == 0) createRole(role);
+            getGuild().addRoleToMember(discordUser, getGuild().getRolesByName(role, true).get(0)).submit(true);
         });
     }
 
     public void setColor(String role, String prefix){
         ChatColor last = ChatColor.getByChar(prefix.charAt(prefix.lastIndexOf(ChatColor.COLOR_CHAR) + 1));
-        bot.getGuilds().get(0).getRolesByName(role, false).get(0).getManager().setColor(last.getColor()).queue();
+        bot.getGuilds().get(0).getRolesByName(role, false).get(0).getManager().setColor(last.getColor()).submit(true);
     }
 
     public void setToken(String token){
@@ -80,5 +98,9 @@ public class BotManager {
 
     public Map<UUID, String> getLinkIDs() {
         return linkIDs;
+    }
+
+    public Guild getGuild(){
+        return bot.getGuilds().get(0);
     }
 }

@@ -2,6 +2,12 @@ plugins {
     id 'java'
     id "com.github.johnrengelman.shadow" version "7.0.0"
 }
+
+libsDirName = 'C:\\Users\\Snowman\\Desktop\\server test\\plugins'
+jar {
+    archiveName 'PermGUI2.jar'
+}
+
 String packagePath = 'me.snowman.permgui2'
 group packagePath
 version '2.1.0'

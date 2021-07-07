@@ -90,11 +90,14 @@ public class Perms implements CommandExecutor, TabCompleter {
             if(args.length == 1){
                 if(args[0].contains("r")){
                     tabComplete.add("reload");
-                }else if(args[0].contains("h")){
+                }else if(args[0].contains("h")) {
                     tabComplete.add("help");
+                }else if(args[0].contains("l")){
+                    tabComplete.add("link");
                 }else{
                     tabComplete.add("reload");
                     tabComplete.add("help");
+                    tabComplete.add("link");
                 }
             }
         }

@@ -12,6 +12,7 @@ public class User {
     private Menu menu;
     private String chat;
     private boolean forceClosed;
+    private String discordID;
 
     public User(Player player) {
         this.player = player;
@@ -71,5 +72,13 @@ public class User {
 
     public void sendActionBar(String message) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText((message)));
+    }
+
+    public String getDiscordID() {
+        return discordID;
+    }
+
+    public void setDiscordID(String discordID) {
+        this.discordID = discordID;
     }
 }
