@@ -12,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -171,6 +172,8 @@ public class Menu {
             case "changegroup":
             case "addgroup":
                 return new LinkedList<>(Arrays.asList(permsManager.getPerms().getGroups()));
+            case "removegroup":
+                return new LinkedList<>(Arrays.asList(permsManager.getPerms().getPlayerGroups(user.getPlayer())));
             case "plugins":
                 return new LinkedList<>(Arrays.stream(getServer().getPluginManager().getPlugins()).map(Plugin::getName).collect(Collectors.toList()));
             case "perms":

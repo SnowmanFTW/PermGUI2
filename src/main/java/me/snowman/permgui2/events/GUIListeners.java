@@ -107,6 +107,13 @@ public class GUIListeners implements Listener {
                     user.getPlayer().closeInventory();
                     botManager.setRole(itemName, user);
                     break;
+
+                case "[REMOVEGROUP]":
+                    permsManager.getPerms().playerRemoveGroup(null, target, itemName);
+                    user.getPlayer().sendMessage(messageManager.getMessages("GroupRemove").replace("%group%", itemName).replace("%player%", target.getName()));
+                    user.getPlayer().closeInventory();
+                    botManager.removeRole(itemName, user);
+                    break;
                 case "[PREFIX]":
                 case "[SUFFIX]":
                     user.setChat(action);

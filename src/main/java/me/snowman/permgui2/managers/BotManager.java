@@ -37,6 +37,7 @@ public class BotManager {
     }
 
     public void startBot(){
+        if(!fileManager.getConfig().getBoolean("Discord.Enabled")) return;
         Bukkit.getScheduler().runTaskAsynchronously(permGUI, () -> {
             Bukkit.getServer().getConsoleSender().sendMessage("Bot starting...");
             try {
@@ -50,6 +51,7 @@ public class BotManager {
     }
 
     public void stopBot(){
+        if(!fileManager.getConfig().getBoolean("Discord.Enabled")) return;
         if(bot == null){
             Bukkit.getServer().getConsoleSender().sendMessage("Bot never started, this is probably an error.");
             return;
@@ -59,12 +61,14 @@ public class BotManager {
     }
 
     public void createRole(String name){
+        if(!fileManager.getConfig().getBoolean("Discord.Enabled")) return;
         Bukkit.getScheduler().runTaskAsynchronously(permGUI, () -> {
             getGuild().createRole().setName(name).submit(true);
         });
     }
 
     public void setRole(String role, me.snowman.permgui2.objects.User user){
+        if(!fileManager.getConfig().getBoolean("Discord.Enabled")) return;
         Bukkit.getScheduler().runTaskAsynchronously(permGUI, () -> {
             if(user.getDiscordID() == null) return;
             Member discordUser = null;
@@ -79,12 +83,30 @@ public class BotManager {
         });
     }
 
+    public void removeRole(String role, me.snowman.permgui2.objects.User user){
+        if(!fileManager.getConfig().getBoolean("Discord.Enabled")) return;
+        Bukkit.getScheduler().runTaskAsynchronously(permGUI, () -> {
+            if(user.getDiscordID() == null) return;
+            Member discordUser = null;
+            try {
+                discordUser = getGuild().retrieveMemberById(user.getDiscordID()).complete(true);
+            } catch (RateLimitedException e) {
+                e.printStackTrace();
+            }
+            if(discordUser == null) return;
+            if(getGuild().getRolesByName(role, true).size() == 0) return;
+            getGuild().removeRoleFromMember(discordUser, getGuild().getRolesByName(role, true).get(0)).submit(true);
+        });
+    }
+
     public void setColor(String role, String prefix){
+        if(!fileManager.getConfig().getBoolean("Discord.Enabled")) return;
         ChatColor last = ChatColor.getByChar(prefix.charAt(prefix.lastIndexOf(ChatColor.COLOR_CHAR) + 1));
         bot.getGuilds().get(0).getRolesByName(role, false).get(0).getManager().setColor(last.getColor()).submit(true);
     }
 
     public void setToken(String token){
+        if(!fileManager.getConfig().getBoolean("Discord.Enabled")) return;
         builder = JDABuilder.createDefault(token);
     }
 
