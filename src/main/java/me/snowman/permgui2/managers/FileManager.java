@@ -13,13 +13,14 @@ import java.net.URL;
 import java.security.CodeSource;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class FileManager {
 
-    private File messagesFile;
-    private FileConfiguration messagesCfg;
+    private File messagesFile, playerFile;
+    private FileConfiguration messagesCfg, playerCfg;
 
     private final PermGUI permGUI;
     public FileManager(PermGUI permGUI){
@@ -173,6 +174,50 @@ public class FileManager {
         getMessages().set("NoPerm", oldMessages.getString("NoPerm"));
         saveMessages();
         return true;
+    }
+
+    public void setupPlayer(Player player){
+        File playersFolder = new File(permGUI.getDataFolder(), "players" + File.separator);
+        UUID uuid = player.getUniqueId();
+        playerFile = new File(permGUI.getDataFolder(), "players" + File.separator + uuid + ".yml");
+        if(!permGUI.getDataFolder().exists()){
+            boolean wasSuccessful = permGUI.getDataFolder().mkdir();
+            if(wasSuccessful) permGUI.getServer().getConsoleSender().sendMessage("Player folder created!");
+            else permGUI.getServer().getConsoleSender().sendMessage("Player folder could not be created!");
+        }
+        if(!playersFolder.exists()){
+            boolean wasSuccessful = playersFolder.mkdir();
+            if(wasSuccessful) permGUI.getServer().getConsoleSender().sendMessage("Players folder created!");
+            else permGUI.getServer().getConsoleSender().sendMessage("Players folder could not be created!");
+        }
+
+        if(!playerFile.exists()){
+            try{
+                boolean wasSuccessful = playerFile.createNewFile();
+                if(wasSuccessful) permGUI.getServer().getConsoleSender().sendMessage("Player file for " + player.getName() + " created!");
+                else permGUI.getServer().getConsoleSender().sendMessage("Player file for " + player.getName() + " could not be created!");
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        playerCfg = YamlConfiguration.loadConfiguration(playerFile);
+    }
+
+    public FileConfiguration getPlayer(Player player) {
+        UUID uuid = player.getUniqueId();
+        if (playerFile == null || !player.getName().equalsIgnoreCase(uuid + ".yml") || playerCfg == null) {
+            playerFile = new File(permGUI.getDataFolder(), "players" + File.separator + uuid + ".yml");
+            playerCfg = YamlConfiguration.loadConfiguration(playerFile);
+        }
+        return playerCfg;
+    }
+
+    public void savePlayer() {
+        try {
+            playerCfg.save(playerFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

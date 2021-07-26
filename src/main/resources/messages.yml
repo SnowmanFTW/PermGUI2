@@ -17,7 +17,11 @@ NoPremade: "&bPremade &f%premade% &bdoesn't exist"
 GroupChat: "&bChat your desired group name. Type &f'cancel'&b to cancel."
 GroupCreate: "&bGroup &f%group% &bcreated."
 GroupAdd: "&bGroup &f%group% &badded to player &f%player%"
+GroupRemove: "&bGroup &f%group% &bremoved from player &f%player%"
 GroupChange: "&bGroup &f%group% &bchanged for player &f%player%"
+
+#Bot section
+DMBot: "&bPrivate message the bot the code &f%code% &bto link account."
 
 #General
 Cancel: "&bOperation has been cancelled!"

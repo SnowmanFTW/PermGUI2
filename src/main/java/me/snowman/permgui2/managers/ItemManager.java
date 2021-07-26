@@ -45,7 +45,6 @@ public class ItemManager {
                             .setSkullOwner(itemsSection.getString(item + ".skin"))
                             .build();
                     if(!itemsSection.isSet(item + ".slot")){
-                        System.out.println("??");
                         menuItem.setSlot(-1);
                     }
                     items.add(menuItem);

@@ -5,7 +5,10 @@ import me.snowman.permgui2.bstats.Metrics;
 import me.snowman.permgui2.commands.Perms;
 import me.snowman.permgui2.events.ChatListeners;
 import me.snowman.permgui2.events.GUIListeners;
+import me.snowman.permgui2.events.JoinListener;
 import me.snowman.permgui2.managers.*;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,19 +20,22 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 public class PermGUI extends JavaPlugin {
-
+    final FileManager fileManager = new FileManager(this);
+    final PermsManager permsManager = new PermsManager(this);
+    final MessageManager messageManager = new MessageManager(this, fileManager);
+    final UserManager userManager = new UserManager(fileManager);
+    final PremadeManager premadeManager = new PremadeManager(this, fileManager, permsManager, messageManager);
+    final ItemManager itemManager = new ItemManager(this, messageManager);
+    final MenuManager menuManager = new MenuManager(this, itemManager, messageManager, permsManager, premadeManager);
+    final BotManager botManager = new BotManager(this, fileManager, userManager);
     @Override
     public void onEnable() {
-        final FileManager fileManager = new FileManager(this);
-        final PermsManager permsManager = new PermsManager(this);
-        final MessageManager messageManager = new MessageManager(this, fileManager);
-        final UserManager userManager = new UserManager();
-        final PremadeManager premadeManager = new PremadeManager(this, fileManager, permsManager, messageManager);
-        final ItemManager itemManager = new ItemManager(this, messageManager);
-        final MenuManager menuManager = new MenuManager(this, itemManager, messageManager, permsManager, premadeManager);
-        getCommand("perms2").setExecutor(new Perms(menuManager, userManager, messageManager, fileManager));
-        getServer().getPluginManager().registerEvents(new GUIListeners(menuManager, itemManager, permsManager, userManager, premadeManager, messageManager), this);
-        getServer().getPluginManager().registerEvents(new ChatListeners(messageManager, permsManager, userManager, premadeManager), this);
+        getCommand("perms2").setExecutor(new Perms(menuManager, userManager, messageManager, fileManager, botManager));
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded all commands."));
+        getServer().getPluginManager().registerEvents(new GUIListeners(menuManager, itemManager, permsManager, userManager, premadeManager, messageManager, botManager), this);
+        getServer().getPluginManager().registerEvents(new ChatListeners(messageManager, permsManager, userManager, premadeManager, botManager), this);
+        getServer().getPluginManager().registerEvents(new JoinListener(fileManager), this);
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded all listeners."));
 
         permsManager.setupChat();
         if(!permsManager.setupPermissions()) return;
@@ -39,16 +45,19 @@ public class PermGUI extends JavaPlugin {
         Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded all configs."));
         fileManager.setupGUIs();
         Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded all menus."));
+        botManager.setToken(getConfig().getString("Discord.Bot-Token"));
+        botManager.startBot();
         int id = 5646;
         Metrics metrics = new Metrics(this, id);
         addCharts(metrics, permsManager);
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bLoaded metrics."));
         updatePlugin();
         Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPermGUI2 &f- &bPlugin loaded. v&f" + getDescription().getVersion()));
     }
 
     @Override
     public void onDisable() {
-
+        botManager.stopBot();
     }
 
     public void addCharts(Metrics metrics, PermsManager permsManager){

@@ -25,14 +25,16 @@ public class GUIListeners implements Listener {
     private final UserManager userManager;
     private final PremadeManager premadeManager;
     private final MessageManager messageManager;
+    private final BotManager botManager;
 
-    public GUIListeners(MenuManager menuManager, ItemManager itemManager, PermsManager permsManager, UserManager userManager, PremadeManager premadeManager, MessageManager messageManager) {
+    public GUIListeners(MenuManager menuManager, ItemManager itemManager, PermsManager permsManager, UserManager userManager, PremadeManager premadeManager, MessageManager messageManager, BotManager botManager) {
         this.menuManager = menuManager;
         this.permsManager = permsManager;
         this.itemManager = itemManager;
         this.userManager = userManager;
         this.premadeManager = premadeManager;
         this.messageManager = messageManager;
+        this.botManager = botManager;
     }
 
     @EventHandler
@@ -97,11 +99,20 @@ public class GUIListeners implements Listener {
                     permsManager.getPerms().playerAddGroup(null, target, itemName);
                     user.getPlayer().sendMessage(messageManager.getMessages("GroupChange").replace("%group%", itemName).replace("%player%", target.getName()));
                     user.getPlayer().closeInventory();
+                    botManager.setRole(itemName, user);
                     break;
                 case "[ADDGROUP]":
                     permsManager.getPerms().playerAddGroup(null, target, itemName);
                     user.getPlayer().sendMessage(messageManager.getMessages("GroupAdd").replace("%group%", itemName).replace("%player%", target.getName()));
                     user.getPlayer().closeInventory();
+                    botManager.setRole(itemName, user);
+                    break;
+
+                case "[REMOVEGROUP]":
+                    permsManager.getPerms().playerRemoveGroup(null, target, itemName);
+                    user.getPlayer().sendMessage(messageManager.getMessages("GroupRemove").replace("%group%", itemName).replace("%player%", target.getName()));
+                    user.getPlayer().closeInventory();
+                    botManager.removeRole(itemName, user);
                     break;
                 case "[PREFIX]":
                 case "[SUFFIX]":

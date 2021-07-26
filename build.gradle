@@ -1,10 +1,11 @@
 plugins {
     id 'java'
+    id "com.github.johnrengelman.shadow" version "7.0.0"
 }
+
 String packagePath = 'me.snowman.permgui2'
 group packagePath
-version '2.0.1'
-
+version '2.1.0'
 
 repositories {
     mavenCentral()
@@ -12,12 +13,24 @@ repositories {
     maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
     maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url 'https://jitpack.io' }
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
-    compileOnly 'net.luckperms:api:5.2'
+    compileOnly 'net.luckperms:api:5.3'
+    implementation("net.dv8tion:JDA:4.3.0_281") {
+        exclude module: 'opus-java'
+    }
+}
+
+shadowJar {
+    minimize()
+    archiveFileName = "PermGUI2-${version}.jar"
 }
 test {
     useJUnitPlatform()

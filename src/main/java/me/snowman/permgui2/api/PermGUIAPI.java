@@ -5,8 +5,8 @@ import me.snowman.permgui2.managers.*;
 
 public class PermGUIAPI {
     private final PermGUI permGUI = PermGUI.getPlugin(PermGUI.class);
-    private final UserManager userManager = new UserManager();
     private final FileManager fileManager = new FileManager(permGUI);
+    private final UserManager userManager = new UserManager(fileManager);
     private final PermsManager permsManager = new PermsManager(permGUI);
     private final MessageManager messageManager = new MessageManager(permGUI, fileManager);
     private final ItemManager itemManager = new ItemManager(permGUI, messageManager);
