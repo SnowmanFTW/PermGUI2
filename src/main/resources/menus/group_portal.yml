@@ -11,8 +11,7 @@ items:
     name: "&bChange meta"
     lore:
       - ""
-      - "&7Click to change the meta"
-      - "&7of the group"
+      - "&7Click to change the meta of the group."
     actions:
       - "[OPEN] meta.yml"
   "permissions":
@@ -22,8 +21,7 @@ items:
     name: "&bChange permissions"
     lore:
       - ""
-      - "&7Click to change the perms"
-      - "&7of the group"
+      - "&7Click to change the perms of the group."
     actions:
       - "[OPEN] plugins.yml"
   "back":
@@ -34,7 +32,6 @@ items:
     name: "&bBack"
     lore:
       - ""
-      - "&7Click to go"
-      - "&7To the previous menu"
+      - "&7Click to go to the previous menu."
     actions:
       - "[OPEN] groups.yml"
