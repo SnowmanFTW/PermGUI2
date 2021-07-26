@@ -17,4 +17,4 @@ If you would like to contribute to PermGUI 2 to fix a bug you spotted or to add 
 If you have contributed any plugins, you can join the Discord server [here](https://discord.gg/GJj6Uk8YS6) and get a special Contributor role.
 
 # Branches
-Until the plugin is finished, everything that is commited will be pushed to this branch.
+Until the plugin is finished, everything that is commited will be pushed to [the "development" branch](https://github.com/SnowmanFTW/PermGUI2/tree/development).
