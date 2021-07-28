@@ -23,6 +23,7 @@ public class BotManager {
     private final PermGUI permGUI;
     private final FileManager fileManager;
     private final UserManager userManager;
+    private final MessageManager messageManager;
 
     private JDABuilder builder;
     private JDA bot;
@@ -30,10 +31,11 @@ public class BotManager {
     private final Map<UUID, String> linkCodes = new HashMap<>();
     private final Map<UUID, String> linkIDs = new HashMap<>();
 
-    public BotManager(PermGUI permGUI, FileManager fileManager, UserManager userManager){
+    public BotManager(PermGUI permGUI, FileManager fileManager, UserManager userManager, MessageManager messageManager){
         this.permGUI = permGUI;
         this.fileManager = fileManager;
         this.userManager = userManager;
+        this.messageManager = messageManager;
     }
 
     public void startBot(){
@@ -41,7 +43,7 @@ public class BotManager {
         Bukkit.getScheduler().runTaskAsynchronously(permGUI, () -> {
             Bukkit.getServer().getConsoleSender().sendMessage("Bot starting...");
             try {
-                bot = builder.addEventListeners(new Listeners(this, fileManager, userManager, permGUI)).build();
+                bot = builder.addEventListeners(new Listeners(this, fileManager, userManager, permGUI, messageManager)).build();
                 bot.awaitReady();
             } catch (LoginException | InterruptedException e) {
                 e.printStackTrace();

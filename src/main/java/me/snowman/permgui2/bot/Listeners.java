@@ -3,6 +3,7 @@ package me.snowman.permgui2.bot;
 import me.snowman.permgui2.PermGUI;
 import me.snowman.permgui2.managers.BotManager;
 import me.snowman.permgui2.managers.FileManager;
+import me.snowman.permgui2.managers.MessageManager;
 import me.snowman.permgui2.managers.UserManager;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -17,12 +18,14 @@ public class Listeners extends ListenerAdapter {
     private final BotManager botManager;
     private final FileManager fileManager;
     private final UserManager userManager;
+    private final MessageManager messageManager;
     private final PermGUI permGUI;
 
-    public Listeners(BotManager botManager, FileManager fileManager, UserManager userManager, PermGUI permGUI){
+    public Listeners(BotManager botManager, FileManager fileManager, UserManager userManager, PermGUI permGUI, MessageManager messageManager){
         this.botManager = botManager;
         this.fileManager = fileManager;
         this.userManager = userManager;
+        this.messageManager = messageManager;
         this.permGUI = permGUI;
     }
 
@@ -38,8 +41,8 @@ public class Listeners extends ListenerAdapter {
                     fileManager.getPlayer(player).set("ID", event.getMessage().getAuthor().getId());
                     fileManager.savePlayer();
                     userManager.getUser(player).setDiscordID(event.getMessage().getAuthor().getId());
-                    Bukkit.getPlayer(entry.getKey()).sendMessage("Linked");
-                    event.getChannel().sendMessage("Linked").submit(true);
+                    player.sendMessage(messageManager.getMessages("LinkedMinecraft").replace("%discord%", event.getMessage().getAuthor().getAsTag()));
+                    event.getChannel().sendMessage(messageManager.getRawMessage("LinkedDiscord").replace("%minecraft%", player.getName())).submit(true);
                     botManager.getLinkCodes().remove(entry.getKey());
                     return;
                 }

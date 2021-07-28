@@ -1,6 +1,7 @@
 package me.snowman.permgui2.commands;
 
 import me.snowman.permgui2.managers.*;
+import me.snowman.permgui2.objects.User;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -55,6 +56,12 @@ public class Perms implements CommandExecutor, TabCompleter {
             return true;
         }
         if(arg.equalsIgnoreCase("link")){
+            if(!fileManager.getConfig().getBoolean("Discord.Enabled")) return true;
+            User user = userManager.getUser(player);
+            if(!user.getDiscordID().isEmpty()){
+                player.sendMessage(messageManager.getMessages("AlreadyLinked"));
+                return true;
+            }
             String code = UUID.randomUUID().toString().substring(0, 10).replace("-", "");
             botManager.getLinkCodes().put(player.getUniqueId(), code);
             player.sendMessage(messageManager.getMessages("DMBot").replace("%code%", code));
@@ -93,11 +100,11 @@ public class Perms implements CommandExecutor, TabCompleter {
                 }else if(args[0].contains("h")) {
                     tabComplete.add("help");
                 }else if(args[0].contains("l")){
-                    tabComplete.add("link");
+                    if(fileManager.getConfig().getBoolean("Discord.Enabled")) tabComplete.add("link");
                 }else{
                     tabComplete.add("reload");
                     tabComplete.add("help");
-                    tabComplete.add("link");
+                    if(fileManager.getConfig().getBoolean("Discord.Enabled"))  tabComplete.add("link");
                 }
             }
         }

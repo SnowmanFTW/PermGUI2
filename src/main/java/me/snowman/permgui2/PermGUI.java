@@ -27,7 +27,7 @@ public class PermGUI extends JavaPlugin {
     final PremadeManager premadeManager = new PremadeManager(this, fileManager, permsManager, messageManager);
     final ItemManager itemManager = new ItemManager(this, messageManager);
     final MenuManager menuManager = new MenuManager(this, itemManager, messageManager, permsManager, premadeManager);
-    final BotManager botManager = new BotManager(this, fileManager, userManager);
+    final BotManager botManager = new BotManager(this, fileManager, userManager, messageManager);
     @Override
     public void onEnable() {
         getCommand("perms2").setExecutor(new Perms(menuManager, userManager, messageManager, fileManager, botManager));
@@ -57,7 +57,10 @@ public class PermGUI extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        botManager.stopBot();
+        try {
+            botManager.stopBot();
+        }catch (NoClassDefFoundError ignored){
+        }
     }
 
     public void addCharts(Metrics metrics, PermsManager permsManager){

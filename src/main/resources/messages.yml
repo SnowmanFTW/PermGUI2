@@ -22,16 +22,20 @@ GroupChange: "&bGroup &f%group% &bchanged for player &f%player%"
 
 #Bot section
 DMBot: "&bPrivate message the bot the code &f%code% &bto link account."
+LinkedMinecraft: "&bLinked minecraft account with discord account: &f%discord%"
+LinkedDiscord: "Linked discord account with minecraft account: %minecraft%"
+AlreadyLinked: "&bThis minecraft account is already linked with a discord account."
 
 #General
 Cancel: "&bOperation has been cancelled!"
 NoPerm: "&bNo permission to execute that command."
 NoConsole: "&bThis command can't be used in the console."
 Help:
-  - "&f&m-------------&r &bPermGUI v&f2.0.0 &f&m-------------"
+  - "&f&m-------------&r &bPermGUI v&f2.1.0 &f&m-------------"
   - "&f/permgui2 - &bOpens the main GUI"
   - "&fAliases: &b/perm2, /perms2"
   - "&f/permgui2 reload - &bReloads the plugin"
   - "&f/permgui2 help - &bDisplays this"
+  - "&f/permgui2 link - &bLink minecraft username to discord"
 Reload: "&bConfig and messages have been reloaded!"
 Prefix: "&bPermGUI2 &f- "

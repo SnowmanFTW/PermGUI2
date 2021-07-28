@@ -34,6 +34,10 @@ public class MessageManager {
         return ChatColor.translateAlternateColorCodes('&', getPrefix() + fileManager.getMessages().getString(s));
     }
 
+    public String getRawMessage(String s){
+        return ChatColor.translateAlternateColorCodes('&', fileManager.getMessages().getString(s));
+    }
+
     public String getPercent(float number, float max) {
         float percent = (max / number) * 100;
         if (percent % 1 == 0.0) return color("&b" + (int) percent + "&f%");
