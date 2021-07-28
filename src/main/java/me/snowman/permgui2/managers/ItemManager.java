@@ -75,6 +75,8 @@ public class ItemManager {
         if(item1.getItemMeta() == null) return false;
         if(item2.getItemMeta() == null) return false;
         if(item2.getItemMeta().getLore() == null && item1.getItemMeta().getLore() == null && item1.getItemMeta().getDisplayName().equals(item2.getItemMeta().getDisplayName())) return true;
+        if(item1.getItemMeta().getLore() == null) return false;
+        if(item2.getItemMeta().getLore() == null) return false;
         return item1.getItemMeta().getDisplayName().equals(item2.getItemMeta().getDisplayName()) &&
                 item1.getItemMeta().getLore().equals(item2.getItemMeta().getLore());
     }
