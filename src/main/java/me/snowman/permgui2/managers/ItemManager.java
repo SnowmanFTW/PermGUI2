@@ -65,9 +65,19 @@ public class ItemManager {
                 if(item.getSlot() == -1) continue;
                 if(item.getName().equalsIgnoreCase(itemStack.getItemMeta().getDisplayName()) && item.getLore().equals(itemLore)) return item;
             }
-            if (item.getItem().isSimilar(itemStack)) return item;
+            System.out.println(item.getItem());
+            System.out.println(itemStack);
+            if(isSimilar(item.getItem(), itemStack)) return item;
         }
         return null;
+    }
+
+    public boolean isSimilar(ItemStack item1, ItemStack item2){
+        if(item1.getItemMeta() == null && item2.getItemMeta() == null && item2.getType().equals(item1.getType())) return true;
+        if(item1.getItemMeta() == null) return false;
+        if(item2.getItemMeta() == null) return false;
+        return item1.getItemMeta().getDisplayName().equals(item2.getItemMeta().getDisplayName()) &&
+                item1.getItemMeta().getLore().equals(item2.getItemMeta().getLore());
     }
 
 }
