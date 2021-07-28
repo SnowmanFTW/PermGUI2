@@ -102,7 +102,6 @@ public class GUIListeners implements Listener {
                     botManager.setRole(itemName, user);
                     break;
                 case "[ADDGROUP]":
-                    System.out.println("hello work");
                     permsManager.getPerms().playerAddGroup(null, target, itemName);
                     user.getPlayer().sendMessage(messageManager.getMessages("GroupAdd").replace("%group%", itemName).replace("%player%", target.getName()));
                     user.getPlayer().closeInventory();
